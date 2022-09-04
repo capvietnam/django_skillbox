@@ -12,7 +12,10 @@ class Index(View):
 class Advertisements(View):
     def get(self, request):
         list_ads = ['машина', 'самокат', 'самолет', 'утюг']
-        return render(request, 'advertisements/advertisement_list.html', {'list_ads': list_ads})
+        num_visits = request.session.get('num_visits', 0)
+        request.session['num_visits'] = num_visits + 1
+        return render(request, 'advertisements/advertisement_list.html', {'list_ads': list_ads,
+                                                                        'num_visits': num_visits})
 
     def post(self, request):
         text = 'регион успешно создан'
