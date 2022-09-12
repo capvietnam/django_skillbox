@@ -14,12 +14,12 @@ class Advertisements(View):
         list_ads = ['машина', 'самокат', 'самолет', 'утюг']
         num_visits = request.session.get('num_visits', 0)
         request.session['num_visits'] = num_visits + 1
-        return render(request, 'advertisements/advertisement_list.html', {'list_ads': list_ads,
+        return render(request, 'advertisements/advertisements-list.html', {'list_ads': list_ads,
                                                                           'num_visits': num_visits})
 
     def post(self, request):
         text = 'регион успешно создан'
-        return render(request, 'advertisements/advertisement_list.html', {'text': text})
+        return render(request, 'advertisements/advertisements-list.html', {'text': text})
 
 
 class My_contacts(TemplateView):
