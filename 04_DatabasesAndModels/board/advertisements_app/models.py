@@ -7,9 +7,9 @@ class Advertisements(models.Model):
     price = models.FloatField(max_length=100, verbose_name='Цена', default=0)
     date_create = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     date_close = models.DateTimeField(verbose_name='Дата окончания')
-    author = models.ForeignKey('Author', default=None, null=True, on_delete=models.PROTECT
+    author = models.ForeignKey('Author', on_delete=models.PROTECT
                                , blank=True, verbose_name='Автор')
-    category = models.ForeignKey('Category', default=None, null=True, on_delete=models.PROTECT
+    category = models.ForeignKey('Category', on_delete=models.PROTECT
                                  , blank=True, verbose_name='Категория')
 
     def __str__(self):
