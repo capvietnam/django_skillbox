@@ -38,7 +38,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ advertisement.title }}</h5>
                     <p class="card-text">{{ advertisement.description }}</p>
-                    <a href="/advertisement/{{ advertisement.id|cut:' ' }}" class="btn btn-primary">Read more...</a>
+                    <a href="{% url advertisement %}" class="btn btn-primary">Read more...</a>
                 </div>
                 <div class="card-footer text-muted">
                     {{ advertisement.date_create|date:"Y-m-d" }}
