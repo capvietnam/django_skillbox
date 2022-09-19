@@ -12,7 +12,7 @@ class Index(View):
 class Advertisements(View):
     def get(self, request):
         list_ads = ['машина', 'самокат', 'самолет', 'утюг']
-        num_visits = request.session.get('num_visits', 0)
+        num_visits = request.session.get('num_visits', ),
         request.session['num_visits'] = num_visits + 1
         return render(request, 'advertisements/advertisements-list.html', {'list_ads': list_ads,
                                                                           'num_visits': num_visits})
