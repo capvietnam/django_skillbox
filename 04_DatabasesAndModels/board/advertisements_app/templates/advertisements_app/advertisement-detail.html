@@ -30,24 +30,22 @@
     <h1>{{ title }}</h1>
     <div class="row">
         <div class="col-md-12">
-            {% for advertisement in advertisement_filter %}
             <div class="card mb-3">
                 <div class="card-header">
-                    Категория: {{ advertisement.category }}
+                    Категория: {{ Advertisement.category }}
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">{{ advertisement.title }}</h5>
-                    <p class="card-text">{{ advertisement.description }}</p>
-                    <p align="center" >Цена удовольствия: {{ advertisement.price }} рублей</p>
+                    <h5 class="card-title">{{ Advertisement.title }}</h5>
+                    <p class="card-text">{{ Advertisement.description }}</p>
+                    <p align="center">Цена удовольствия: {{ advertisement.price }} рублей</p>
                 </div>
                 <div class="card-footer text-muted">
-                    {{ advertisement.date_create|date:"Y-m-d" }}
-                    <p class="card-text"> Номер связи: {{ advertisement.author.number }}, почта:
-                        {{ advertisement.author.email }}</p>
-                    <p class="card-text" align="right">Колличество просмотров: {{ num_visits }}</p>
+                    {{ Advertisement.date_create|date:"Y-m-d" }}
+                    <p class="card-text"> Номер связи: {{ Advertisement.author.number }}, почта:
+                        {{ Advertisement.author.email }}</p>
+                    <p class="card-text" align="right">Колличество просмотров: {{ obj }}</p>
                 </div>
             </div>
-            {% endfor %}
         </div>
     </div>
 </div>

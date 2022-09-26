@@ -30,7 +30,7 @@
     <h1>{{ title }}</h1>
     <div class="row">
         <div class="col-md-12">
-            {% for advertisement in advertisements %}
+            {% for advertisement in Advertisements %}
             <div class="card mb-3">
                 <div class="card-header">
                     Категория: {{ advertisement.category }}
@@ -38,7 +38,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ advertisement.title }}</h5>
                     <p class="card-text">{{ advertisement.description }}</p>
-                    <a href="{% url advertisement %}" class="btn btn-primary">Read more...</a>
+                    <a href="{% url 'advertisement-detail' advertisement.pk %}" class="btn btn-primary">Read more...</a>
                 </div>
                 <div class="card-footer text-muted">
                     {{ advertisement.date_create|date:"Y-m-d" }}

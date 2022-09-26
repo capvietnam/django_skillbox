@@ -3,7 +3,7 @@ from .models import Advertisements, Author, Category
 
 
 class AdvertisementsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'description', 'price', 'date_create', 'date_close', 'author')
+    list_display = ('id', 'title', 'description', 'price', 'date_create', 'date_close', 'author', 'views_count')
     list_display_links = ('id', 'title')
     search_fields = ('title', 'description')
     list_filter = ('title',)

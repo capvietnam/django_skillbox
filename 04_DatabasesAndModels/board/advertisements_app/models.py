@@ -1,17 +1,18 @@
 from django.db import models
-
+from django.urls import reverse
 
 class Advertisements(models.Model):
-    
     title = models.CharField(max_length=150, db_index=True, verbose_name='Название')
     description = models.CharField(max_length=1000, blank=True, default='', verbose_name='описание')
     price = models.FloatField(max_length=100, verbose_name='Цена', default=0)
     date_create = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     date_close = models.DateTimeField(verbose_name='Дата окончания')
+    views_count = models.FloatField(max_length=100, verbose_name='Колличесво просмотров', default=0, blank=True)
     author = models.ForeignKey('Author', on_delete=models.PROTECT
                                , blank=True, verbose_name='Автор', related_name='advertisements')
     category = models.ForeignKey('Category', on_delete=models.PROTECT
                                  , blank=True, verbose_name='Категория', related_name='advertisements')
+
 
     def __str__(self):
         return self.title
