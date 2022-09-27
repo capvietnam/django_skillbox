@@ -4,6 +4,6 @@ from .views import *
 
 
 urlpatterns = [
-    path('advertisement/', Advertisement.as_view(), name='advertisements-list'),
-    path('advertisement/<int:pk>/', Get_advertisement.as_view(), name='advertisement-detail')
+    path('advertisement/', HomeAdvertisement.as_view(), name='advertisements-list'),
+    path('advertisement/<int:pk>/', Advertisement.as_view(), name='advertisement-detail')
 ]
