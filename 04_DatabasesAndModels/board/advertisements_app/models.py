@@ -7,7 +7,7 @@ class Advertisements(models.Model):
     price = models.FloatField(max_length=100, verbose_name='Цена')
     date_create = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     date_close = models.DateTimeField(verbose_name='Дата окончания')
-    views_count = models.FloatField(max_length=100, verbose_name='Колличесво просмотров', blank=True)
+    views_count = models.FloatField(max_length=100, verbose_name='Колличесво просмотров', blank=True, default=0)
     author = models.ForeignKey('Author', on_delete=models.PROTECT
                                , blank=True, verbose_name='Автор', related_name='advertisements')
     category = models.ForeignKey('Category', on_delete=models.PROTECT
