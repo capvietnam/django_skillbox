@@ -2,5 +2,10 @@ from django.apps import AppConfig
 
 
 class AppNewsConfig(AppConfig):
-    name = 'app_news'
+    name = 'реклама'
+    verbose_name = 'рекламы'
 
+
+class CommentConfig(AppConfig):
+    name = 'Коменнтарий'
+    verbose_name = 'Коменнтарии'
