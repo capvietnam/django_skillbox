@@ -36,14 +36,17 @@ class Index(View):
         self.Comment.save()
         return render(request, 'app_news/news-detail.html', {'CommentForms': CommentForms})
 
-        # model = News
-        # context_object_name = 'News'
-        # template_name = 'app_news/news-detail.html'
-        #
-        #
-        # def get_context_data(self, *, object_list=None, **kwargs):
-        #     context = super(Index, self).get_context_data(**kwargs)
-        #     context['title'] = self.model.objects.get(pk=self.kwargs['pk'])
-        #     context['CommentForms'] = CommentForms
-        #     context['Comments'] = Comment
-        #     return context
+
+class NewsDetail(View):
+    News = News()
+
+    def get(self, request, pk):
+        return render(request, "app_news/change-news.html", {"News": News})
+
+    def post(self, request, pk):
+        News = self.News.objects.get(id=pk)
+        News.title = request.POST.get("title")
+        News.description = request.POST.get("description")
+        News.is_published = request.POST.get("is_published")
+        News.save()
+        return render(request, 'app_news/change-news.html', {'NewsForms': NewsForms})

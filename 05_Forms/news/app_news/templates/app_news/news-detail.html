@@ -62,8 +62,23 @@
                         </div>
                         {{ form.non_field_errors }}
 
-                        <div class="card-footer text-muted">
-                            <button type="submit" class="btn btn-primary btn-block">Добавить комментарий</button>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <button type="submit" class="btn btn-primary btn-block">Добавить комментарий
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a href="{% url 'change-news' News.pk %}" class="btn btn-primary">Изменить
+                                            новость</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
