@@ -32,13 +32,15 @@
             <div class="card mb-3">
                 <form action="{% url 'add-news' %}" method='post'>
                     {% csrf_token %}
-                    {% comment %}
+
+
                     <div class="card-body">
                         {{form.as_p}}
                     </div>
-                    {% endcomment %}
-
                     {{ form.non_field_errors }}
+
+
+                    {% comment %}
                     <div class="form-group">
                         <label for="{{ form.title.id_for_label }}">Название: </label>
                         {{ form.title }}
@@ -62,9 +64,11 @@
                             {{ form.content.errors }}
                         </div>
                     </div>
+                    {% endcomment %}
+
 
                     <div class="card-footer text-muted">
-                        <button type="submit" class="btn btn primary btn-block">Добавить новость</button>
+                        <button type="submit" class="btn btn-primary btn-block">Добавить новость</button>
                     </div>
                 </form>
             </div>

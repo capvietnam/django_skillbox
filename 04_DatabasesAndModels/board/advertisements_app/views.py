@@ -11,6 +11,7 @@ class HomeAdvertisement(ListView):
     extra_context = {'title': 'Список объявлений'}
 
 
+
 class Advertisement(DetailView):
     model = Advertisements
     context_object_name = 'Advertisement'
