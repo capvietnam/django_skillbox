@@ -10,7 +10,7 @@ class NewsAdmin(admin.ModelAdmin):
 
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'author', 'description', 'news')
+    list_display = ('id', 'author', 'get_description', 'news')
     list_display_links = ('id', 'author')
     search_fields = ('author',)
 

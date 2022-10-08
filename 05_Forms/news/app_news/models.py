@@ -23,8 +23,14 @@ class News(models.Model):
 
 class Comment(models.Model):
     description = models.CharField(max_length=50, db_index=True, verbose_name='Текст комментария')
-    author = models.CharField(max_length=50)
+    author = models.CharField(max_length=50, verbose_name='Автор')
     news = models.ForeignKey('News', on_delete=models.CASCADE, related_name='news')
+
+    def get_description(self):
+        if len(self.description) >= 15:
+            return self.description[:15] + '...'
+        else:
+            return self.description
 
     def __str__(self):
         return self.author
