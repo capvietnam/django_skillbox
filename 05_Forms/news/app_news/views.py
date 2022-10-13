@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.views.generic import ListView, DetailView, View, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import News, Comment
 from .forms import NewsForms, CommentForms
 
@@ -20,33 +20,29 @@ class AddNews(CreateView):
     template_name = 'app_news/add-news.html'
 
 
-class Index(View):
-    Comment = Comment()
+class NewsDetail(DetailView):
+    model = News
+    template_name = 'app_news/news-detail.html'
 
-    def get(self, request, pk):
-        return render(request, 'app_news/news-detail.html',
-                      {'Comments': Comment.objects.filter(news_id=pk),
-                       'News': News.objects.get(pk=pk)}
-                      )
-
-    def post(self, request, pk):
-        self.Comment.description = request.POST.get("description")
-        self.Comment.author = request.POST.get("author")
-        self.Comment.news = News.objects.get(id=request.POST.get("news"))
-        self.Comment.save()
-        return render(request, 'app_news/news-detail.html', {'CommentForms': CommentForms})
-
-
-class NewsDetail(View):
-    News = News()
-
-    def get(self, request, pk):
-        return render(request, "app_news/change-news.html", {"News": News})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['CommentForms'] = CommentForms
+        return context
 
     def post(self, request, pk):
-        News = self.News.objects.get(id=pk)
-        News.title = request.POST.get("title")
-        News.description = request.POST.get("description")
-        News.is_published = request.POST.get("is_published")
-        News.save()
-        return render(request, 'app_news/change-news.html', {'NewsForms': NewsForms})
+        f = CommentForms(request.POST)
+        new_comment = f.save(commit=False)
+        new_comment.description = request.POST.get("description")
+        new_comment.author = request.POST.get("author")
+        new_comment.news = self.model.objects.get(id=pk)
+        f.save()
+        return redirect('/news/' + str(pk))
+
+
+class UpdateNews(UpdateView):
+    model = News
+    template_name = 'app_news/update-view.html'
+    fields = ['title', 'description', 'is_published']
+
+    def get_success_url(self):
+        return reverse('news-list')

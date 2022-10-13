@@ -21,6 +21,8 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" href="/news/">Все объявления</a></li>
                 <li class="nav-item"><a class="nav-link" href="/news/add-news/">Добавить объявление</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'update-news' pk=object.id %}">Изменить
+                    объявление</a></li>
             </ul>
         </div>
     </div>
@@ -32,18 +34,18 @@
         <div class="col-md-12">
             <div class="card mb-3">
                 <div class="card-body">
-                    <h5 class="card-title">{{ News.title }}</h5>
-                    <p class="card-text">{{ News.description }}</p>
+                    <h5 class="card-title">{{ object.title }}</h5>
+                    <p class="card-text">{{ object.description }}</p>
                 </div>
                 <div class="card-footer text-muted">
-                    {{ News.date_update|date:"Y-m-d" }}
+                    {{ object.date_update|date:"Y-m-d" }}
                 </div>
                 <div class="text-center">
                     <h5> Комментарии </h5>
                 </div>
                 <div class="form-group">
                     <div class="card-body">
-                        {% for comment in Comments %}
+                        {% for comment in object.comments.all %}
                         <div class="card w-75">
                             <div class="card-body">
                                 <h5 class="card-title">{{comment.author}}</h5>
@@ -52,6 +54,10 @@
                         </div>
                         {% endfor %}
                     </div>
+                </div>
+
+                <div class="text-center">
+                    <h5> Добавить комментарий </h5>
                 </div>
 
                 <div>
@@ -68,14 +74,6 @@
                                     <div class="card-body">
                                         <button type="submit" class="btn btn-primary btn-block">Добавить комментарий
                                         </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <a href="{% url 'change-news' News.pk %}" class="btn btn-primary">Изменить
-                                            новость</a>
                                     </div>
                                 </div>
                             </div>
