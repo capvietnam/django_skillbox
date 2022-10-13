@@ -32,11 +32,10 @@ class NewsDetail(DetailView):
     def post(self, request, pk):
         f = CommentForms(request.POST)
         new_comment = f.save(commit=False)
-        new_comment.description = request.POST.get("description")
-        new_comment.author = request.POST.get("author")
-        new_comment.news = self.model.objects.get(id=pk)
-        f.save()
-        return redirect('/news/' + str(pk))
+        new_comment.news = self.get_object()
+        if f.is_valid():
+            f.save()
+            return redirect('/news/' + str(pk))
 
 
 class UpdateNews(UpdateView):
