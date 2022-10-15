@@ -27,7 +27,7 @@ class Comment(models.Model):
     news = models.ForeignKey('News', on_delete=models.CASCADE, related_name='comments', verbose_name='Новость')
 
     def get_description(self):
-        if len(self.description) >= 15:
+        if len(str(self.description)) >= 15:
             return self.description[:15] + '...'
         else:
             return self.description

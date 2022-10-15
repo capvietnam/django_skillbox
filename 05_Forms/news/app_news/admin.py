@@ -26,6 +26,10 @@ move_to_draft.short_description = "Delete Comments"
 class CommentInline(admin.TabularInline):
     model = Comment
 
+    def get_extra(self, request, obj=None, **kwargs):
+        extra = 0
+        return extra
+
 
 class NewsAdmin(admin.ModelAdmin):
     inlines = [CommentInline, ]
@@ -33,6 +37,7 @@ class NewsAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'title')
     search_fields = ('title', 'description')
     list_filter = ('is_published',)
+    list_editable = ('is_published',)
     actions = [make_published, move_to_draft]
 
 
@@ -41,6 +46,7 @@ class CommentAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'author')
     search_fields = ('author',)
     list_filter = ('author',)
+    list_display_links = ('id', 'author',)
     actions = [remove_comment]
 
 
