@@ -8,7 +8,8 @@ class Comment(models.Model):
     description = models.CharField(max_length=50, db_index=True, verbose_name='Текст комментария')
     author = models.CharField(max_length=50, verbose_name='Автор', blank=True)
     news = models.ForeignKey('News', on_delete=models.CASCADE, related_name='comments', verbose_name='Новость')
-    user = models.ForeignKey(User, blank=True, on_delete=models.CASCADE, related_name='comments', verbose_name='Пользователь')
+    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE, related_name='comments',
+                             verbose_name='Пользователь')
 
     def get_description(self):
         if len(str(self.description)) >= 15:
@@ -46,4 +47,3 @@ class News(models.Model):
 
     def get_absolute_url(self):
         return reverse('news-detail', kwargs={'pk': self.pk})
-

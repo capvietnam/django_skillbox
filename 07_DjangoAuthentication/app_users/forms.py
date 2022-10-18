@@ -32,12 +32,14 @@ class NewsForms(forms.ModelForm):
 #         }
 
 class CommentForms(forms.ModelForm):
-    description = forms.CharField(label='Описание', widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}))
-    author = forms.CharField(label='Автор', widget=forms.TextInput(attrs={'class': 'form-control'}))
-
     class Meta:
         model = Comment
-        fields = "__all__"
+        fields = ['author', 'description']
+        widgets = {
+            'author': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
+        }
+
 
 
 class UserForm(forms.Form):

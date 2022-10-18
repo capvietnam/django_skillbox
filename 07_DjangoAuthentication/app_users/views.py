@@ -47,14 +47,16 @@ class NewsDetail(DetailView):
         #     if request.user.is_authenticated:
         #         new_comment.user.username = request.user.username
         #     f.save()
-        сomment = Comment()
-        сomment.news = self.model.objects.get(id=pk)
-        if request.user.is_authenticated:
-            сomment.author = request.POST.get("author")
-        else:
-            сomment.author = request.user.username
-        сomment.description = request.POST.get("description")
-        сomment.save()
+        f = CommentForms(request.POST)
+        if f.is_valid():
+            new_comment = f.save(commit=False)
+            new_comment.news = self.model.objects.get(id=pk)
+            if request.user.is_authenticated:
+                new_comment.user = request.user
+            else:
+                new_comment.author = request.POST.get("author") + ' аноним'
+            new_comment.description = request.POST.get("description")
+            f.save()
         return redirect('/news/' + str(pk))
 
 

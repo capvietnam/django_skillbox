@@ -54,6 +54,7 @@
                         {% for comment in object.comments.all %}
                         <div class="card w-75">
                             <div class="card-body">
+                                <h5 class="card-title">{{comment.user.username}}</h5>
                                 <h5 class="card-title">{{comment.author}}</h5>
                                 <p class="card-text">{{comment.description}}</p>
                             </div>
