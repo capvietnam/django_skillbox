@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import News, Comment
+from .models import News, Comment, User
 
 
 def make_published(modeladmin, request, queryset):
