@@ -50,12 +50,11 @@ class NewsDetail(DetailView):
         f = CommentForms(request.POST)
         if f.is_valid():
             new_comment = f.save(commit=False)
-            new_comment.news = self.model.objects.get(id=pk)
+            new_comment.news = self.get_object()
             if request.user.is_authenticated:
                 new_comment.user = request.user
             else:
-                new_comment.author = request.POST.get("author") + ' аноним'
-            new_comment.description = request.POST.get("description")
+                new_comment.author += ' аноним'
             f.save()
         return redirect('/news/' + str(pk))
 
