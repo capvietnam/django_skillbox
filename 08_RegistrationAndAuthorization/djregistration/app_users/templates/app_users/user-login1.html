@@ -9,21 +9,19 @@
     <title>{{ title }}</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/news/1/">Главная страница</a>
+        <a class="navbar-brand" href="/">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <ul class="navbar-nav me-auto">
-            <li class="nav-item"><a class="nav-link" href="{% url 'add-news' %}">Добавить объявление</a></li>
-        </ul>
-
-        <span class="navbar-text">
-            {% if request.user.is_authenticated %}
-                <a href="{% url 'user-logout' %}">Выход</a>
-            {% else %}
-                <a href="{% url 'user-login' %}">Вход</a> | <a href="{% url 'user-register' %}">Регистрация</a>
-            {% endif %}
-        </span>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="{% url 'news-list' %}">Все объявления</a></li>
+            </ul>
+        </div>
     </div>
 </nav>
 
@@ -31,21 +29,22 @@
     <h1>{{ title }}</h1>
     <div class="row">
         <div class="col-md-12">
-            {% for news_item in News %}
             <div class="card mb-3">
-                <div class="card-header">
-                    Категория: {{ news_item.category }}
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">{{ news_item.title }}</h5>
-                    <p class="card-text">{{ news_item.description }}</p>
-                    <a href="{% url 'news-detail' news_item.pk %}" class="btn btn-primary">Read more...</a>
-                </div>
-                <div class="card-footer text-muted">
-                    {{ news_item.date_create|date:"Y-m-d" }}
-                </div>
+                <form action="{% url 'user-login' %}" method='post'>
+                    {% csrf_token %}
+
+
+                    <div class="card-body">
+                        {{form.as_p}}
+                    </div>
+                    {{ form.non_field_errors }}
+
+
+                    <div class="card-footer text-muted">
+                        <button type="submit" class="btn btn-primary btn-block"> Войти </button>
+                    </div>
+                </form>
             </div>
-            {% endfor %}
         </div>
     </div>
 </div>

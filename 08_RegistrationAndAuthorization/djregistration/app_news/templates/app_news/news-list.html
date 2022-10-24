@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+<ul class="navbar-nav me-auto">
+    <li class="nav-item"><a class="nav-link" href="{% url 'add-news' %}">Добавить объявление</a></li>
+</ul>
+{% endblock %}
+
+{% block content %}
+<div class="col-md-12">
+            {% for news_item in News %}
+            <div class="card mb-3">
+                <div class="card-header">
+                    Категория: {{ news_item.category }}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ news_item.title }}</h5>
+                    <p class="card-text">{{ news_item.description }}</p>
+                    <a href="{% url 'news-detail' news_item.pk %}" class="btn btn-primary">Read more...</a>
+                </div>
+                <div class="card-footer text-muted">
+                    {{ news_item.date_create|date:"Y-m-d" }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+{% endblock %}

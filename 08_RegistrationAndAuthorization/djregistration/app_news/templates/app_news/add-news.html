@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+
+{% block navbar %}
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <li class="nav-item"><a class="nav-link" href="{% url 'news-list' %}">Все объявления</a></li>
+</ul>
+{% endblock %}
+
+
+{% block content %}
+<div class="col-md-12">
+    <div class="card mb-3">
+        <form action="{% url 'add-news' %}" method='post'>
+            {% csrf_token %}
+
+
+            <div class="card-body">
+                {{form.as_p}}
+            </div>
+            {{ form.non_field_errors }}
+
+
+            {% comment %}
+            <div class="form-group">
+                <label for="{{ form.title.id_for_label }}">Название: </label>
+                {{ form.title }}
+                <div class="invalid-feedback">
+                    {{ form.content.errors }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.title.id_for_label }}">Описание: </label>
+                {{ form.description }}
+                <div class="invalid-feedback">
+                    {{ form.content.errors }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.title.id_for_label }}">Активность: </label>
+                {{ form.is_published }}
+                <div class="invalid-feedback">
+                    {{ form.content.errors }}
+                </div>
+            </div>
+            {% endcomment %}
+
+
+            <div class="card-footer text-muted">
+                <button type="submit" class="btn btn-primary btn-block">Добавить новость</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

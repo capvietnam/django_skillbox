@@ -7,11 +7,9 @@ from django.shortcuts import render, redirect
 from django.template.context_processors import request
 from django.urls import reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from .models import News, Comment
 from .forms import NewsForms, CommentForms
 from django.contrib.auth.models import User
-from django.apps import apps
-
-News = apps.get_model('app_news', 'News')
 
 
 class HomeNews(ListView):
@@ -42,6 +40,13 @@ class NewsDetail(DetailView):
         return context
 
     def post(self, request, pk):
+        # f = CommentForms(request.POST)
+        # if f.is_valid():
+        #     new_comment = f.save(commit=False)
+        #     new_comment.news = self.get_object()
+        #     if request.user.is_authenticated:
+        #         new_comment.user.username = request.user.username
+        #     f.save()
         f = CommentForms(request.POST)
         if f.is_valid():
             new_comment = f.save(commit=False)
@@ -62,33 +67,3 @@ class UpdateNews(UpdateView):
 
     def get_success_url(self):
         return reverse('news-list')
-
-
-class UserLoginView(LoginView):
-    """Аутификация пользоваетлей"""
-    template_name = 'app_news/user-login.html'
-
-
-def UserRegisterView(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Вы успешно зарегистрировались')
-            return redirect('user-login')
-        else:
-            messages.error(request, 'Ошибка регистрации')
-    else:
-        form = UserCreationForm()
-    return render(request, 'app_news/user-register.html', {'form': form})
-
-
-class UserLogoutView(LogoutView):
-    template_name = 'app_news/user-logout.html'
-
-#
-# def user_logout(request):
-#     """Выход пользователей из системы"""
-#     logout(request)
-#     return HttpResponse(
-#         "Вы успешно вышли" + "<p></p><a class='nav-link' href={% /news/ %}>Все объявления</a>")

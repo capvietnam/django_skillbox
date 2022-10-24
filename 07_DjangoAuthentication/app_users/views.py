@@ -15,7 +15,7 @@ from django.contrib.auth.models import User
 class HomeNews(ListView):
     """Список всех новостей"""
     model = News
-    template_name = 'app_users/news-list.html'
+    template_name = 'app_news/news-list.html'
     context_object_name = 'News'
     extra_context = {'title': 'Список объявлений'}
 
@@ -26,13 +26,13 @@ class HomeNews(ListView):
 class AddNews(CreateView):
     """Создание новой новости через сайт"""
     form_class = NewsForms
-    template_name = 'app_users/add-news.html'
+    template_name = 'app_news/add-news.html'
 
 
 class NewsDetail(DetailView):
     """Отдельная страница новости"""
     model = News
-    template_name = 'app_users/news-detail.html'
+    template_name = 'app_news/news-detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -62,7 +62,7 @@ class NewsDetail(DetailView):
 class UpdateNews(UpdateView):
     """Изменение новости в базе данных"""
     model = News
-    template_name = 'app_users/update-view.html'
+    template_name = 'app_news/update-view.html'
     fields = ['title', 'description', 'is_published']
 
     def get_success_url(self):
@@ -71,7 +71,7 @@ class UpdateNews(UpdateView):
 
 class UserLoginView(LoginView):
     """Аутификация пользоваетлей"""
-    template_name = 'app_users/user-login.html'
+    template_name = 'app_news/user-login.html'
 
 
 def UserRegisterView(request):
@@ -85,11 +85,11 @@ def UserRegisterView(request):
             messages.error(request, 'Ошибка регистрации')
     else:
         form = UserCreationForm()
-    return render(request, 'app_users/user-register.html', {'form': form})
+    return render(request, 'app_news/user-register.html', {'form': form})
 
 
 class UserLogoutView(LogoutView):
-    template_name = 'app_users/user-logout.html'
+    template_name = 'app_news/user-logout.html'
 
 #
 # def user_logout(request):
