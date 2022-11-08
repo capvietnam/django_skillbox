@@ -4,8 +4,8 @@ from . import views
 from django.urls import *
 
 urlpatterns = [
-    path('user/login/', UserLoginView.as_view(), name='user-login'),
-    path('user/register/', UserRegisterView, name='user-register'),
-    path('user/logout/', UserLogoutView.as_view(), name='user-logout'),
-    path('user/profile/<int:pk>/', PtofileDetail.as_view(), name='user-profile'),
+    path(r'login/', UserLoginView.as_view(), name=r'user-login'),
+    path(r'register/', UserRegisterView, name=r'user-register'),
+    path(r'logout/', UserLogoutView.as_view(), name=r'user-logout'),
+    path(r'profile/<int:pk>/', PtofileDetail.as_view(), name=r'user-profile'),
 ]

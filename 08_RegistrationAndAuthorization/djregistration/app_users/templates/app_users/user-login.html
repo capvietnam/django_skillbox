@@ -2,34 +2,33 @@
 
 
 {% block navbar %}
+
 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
     <li class="nav-item"><a class="nav-link" href="{% url 'news-list' %}">Все объявления</a></li>
 </ul>
+
 {% endblock %}
 
 
 {% block content %}
 
 <div class="col-md-12">
-    {% if request.user.profile.verification %}
-    <form action="{% url 'add-news' %}" method='post'>
-        {% csrf_token %}
-        <div class="card mb-3">
+    <div class="card mb-3">
+        <form action="{% url 'user-login' %}" method='post'>
+            {% csrf_token %}
+
 
             <div class="card-body">
                 {{form.as_p}}
             </div>
             {{ form.non_field_errors }}
 
+
             <div class="card-footer text-muted">
-                <button type="submit" class="btn btn-primary btn-block">Добавить новость</button>
+                <button type="submit" class="btn btn-primary btn-block"> Войти</button>
             </div>
-
-
-        </div>
-    </form>
-    {% else %}
-    <p>Дождитесь проверки модератором</p>
-    {% endif %}
+        </form>
+    </div>
 </div>
+
 {% endblock %}

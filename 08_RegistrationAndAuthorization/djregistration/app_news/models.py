@@ -8,8 +8,8 @@ class Comment(models.Model):
     description = models.CharField(max_length=50, db_index=True, verbose_name='Текст комментария')
     author = models.CharField(max_length=50, verbose_name='Автор', blank=True)
     news = models.ForeignKey('News', on_delete=models.CASCADE, related_name='comments', verbose_name='Новость')
-    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE, related_name='comments',
-                             verbose_name='Пользователь')
+    user = models.OneToOneField(User, blank=True, null=True, on_delete=models.CASCADE, related_name='comments',
+                                verbose_name='Пользователь')
 
     def get_description(self):
         if len(str(self.description)) >= 15:
@@ -35,14 +35,15 @@ class News(models.Model):
     description = models.CharField(max_length=50, verbose_name='Описание')
     date_create = models.DateField(auto_now_add=True, verbose_name='Дата создания')
     date_update = models.DateField(auto_now=True, verbose_name='Дата обновления')
-    is_published = models.BooleanField(verbose_name='Опубликовано')
+    is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
+    tags = models.CharField(max_length=50, db_index=True, blank=True, verbose_name='Тег')
 
     def __str__(self):
         return self.title
 
     class Meta:
-        verbose_name = 'Реклама'
-        verbose_name_plural = 'Рекламы'
+        verbose_name = 'Новость'
+        verbose_name_plural = 'Новости'
         ordering = ['date_create', 'title']
 
     def get_absolute_url(self):

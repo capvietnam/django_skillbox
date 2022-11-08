@@ -5,7 +5,7 @@ from .models import News, Comment
 class NewsForms(forms.ModelForm):
     class Meta:
         model = News
-        fields = ['title', 'description', 'is_published']
+        fields = ['title', 'description']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),

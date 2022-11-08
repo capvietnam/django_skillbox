@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,7 +16,9 @@
 
         <span class="navbar-text">
             {% if request.user.is_authenticated %}
+            <div>
                 <a href="{% url 'user-profile' user.pk %}"> Мой профиль </a>
+            </div>
                 <a href="{% url 'user-logout' %}"> Выход </a>
             {% else %}
                 <a href="{% url 'user-login' %}"> Вход </a> | <a href="{% url 'user-register' %}">Регистрация</a>

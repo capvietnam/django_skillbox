@@ -33,9 +33,9 @@ class CommentInline(admin.TabularInline):
 
 class NewsAdmin(admin.ModelAdmin):
     inlines = [CommentInline, ]
-    list_display = ('id', 'title', 'date_create', 'date_update', 'is_published')
-    list_display_links = ('id', 'title')
-    search_fields = ('title', 'description')
+    list_display = ('id', 'tags', 'title', 'date_create', 'date_update', 'is_published',)
+    list_display_links = ('id', 'tags', 'title',)
+    search_fields = ('tags', 'title',)
     list_filter = ('is_published',)
     list_editable = ('is_published',)
     actions = [make_published, move_to_draft]
@@ -52,9 +52,9 @@ class CommentAdmin(admin.ModelAdmin):
 
 class UserAdmin(admin.ModelAdmin):
     inlines = [CommentInline, ]
-    list_display = ('id', 'password' )
-    list_display_links = ('id', )
-    search_fields = ('login', )
+    list_display = ('id', 'password',)
+    list_display_links = ('id',)
+    search_fields = ('login',)
 
 
 admin.site.unregister(User)

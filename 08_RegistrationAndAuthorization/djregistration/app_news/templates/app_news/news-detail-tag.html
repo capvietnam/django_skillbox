@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+<ul class="navbar-nav me-auto">
+    <li class="nav-item"><a class="nav-link" href="{% url 'news-list' %}">Все объявления</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'add-news' %}">Добавить объявление</a></li>
+</ul>
+{% endblock %}
+
+{% block content %}
+
+<div class="col-md-12">
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ object.title }}</h5>
+            <p class="card-text">{{ object.description }}</p>
+        </div>
+        <div class="card-footer text-muted">
+            {{ object.date_update|date:"Y-m-d" }}
+        </div>
+        <div class="text-center">
+            <h5> Комментарии </h5>
+        </div>
+        <div class="form-group">
+            <div class="card-body">
+                {% for comment in object.comments.all %}
+                <div class="card w-75">
+                    <div class="card-body">
+                        <h5 class="card-title">{{comment.user.username}}</h5>
+                        <h5 class="card-title">{{comment.author}}</h5>
+                        <p class="card-text">{{comment.description}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="text-center">
+            <h5> Добавить комментарий </h5>
+        </div>
+
+        <div>
+            <form method='post'>
+                {% csrf_token %}
+                <div class="card-body">
+                    {% if not request.user.is_authenticated %}
+                    <div class="form-group">
+                        <label for="{{ form.author.id_for_label }}"> Автор </label>
+                        {{ CommentForms.author }}
+                        <div class="invalid-feedback">
+                            {{ CommentForms.author.errors }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="form-group">
+                        <label for="{{ form.description.id_for_label }}"> Коментарий </label>
+                        {{ CommentForms.description }}
+                        <div class="invalid-feedback">
+                            {{ CommentForms.description.errors }}
+                        </div>
+                    </div>
+                </div>
+                {{ form.non_field_errors }}
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <button type="submit" class="btn btn-primary btn-block">Добавить комментарий
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
