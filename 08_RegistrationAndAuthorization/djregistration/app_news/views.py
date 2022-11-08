@@ -28,50 +28,6 @@ class HomeNews(ListView):
         return context
 
 
-class NewsDetailTags(DetailView):
-    model = News
-    template_name = 'app_news/news-detail-tag.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['CommentForms'] = CommentForms
-        return context
-
-    def post(self, request, pk):
-        f = CommentForms(request.POST)
-        if f.is_valid():
-            new_comment = f.save(commit=False)
-            new_comment.news = self.get_object()
-            if request.user.is_authenticated:
-                new_comment.user = request.user
-            else:
-                new_comment.author += ' аноним'
-            f.save()
-        return redirect('/news/' + str(pk))
-
-
-class NewsDetailDate(DetailView):
-    model = News
-    template_name = 'app_news/news-detail-date.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['CommentForms'] = CommentForms
-        return context
-
-    def post(self, request, pk):
-        f = CommentForms(request.POST)
-        if f.is_valid():
-            new_comment = f.save(commit=False)
-            new_comment.news = self.get_object()
-            if request.user.is_authenticated:
-                new_comment.user = request.user
-            else:
-                new_comment.author += ' аноним'
-            f.save()
-        return redirect('/news/' + str(pk))
-
-
 class AddNews(CreateView):
     """Создание новой новости через сайт"""
     form_class = NewsForms

@@ -12,7 +12,7 @@
         <div class="list-group">
             {% for new in News %}
             {% if new.tags != '' %}
-            <a href="{% url 'news-detail-tag' new.pk %}" class="list-group-item list-group-item-actions"> {{ new.tags }} </a>
+            <a href="{% url 'news-detail' new.pk %}" class="list-group-item list-group-item-actions"> {{ new.tags }} </a>
             {% endif %}
             {% endfor %}
         </div>
@@ -22,7 +22,7 @@
         <p>Отфильтровать по дате</p>
         <div class="list-group">
             {% for new in News %}
-            <a href="{% url 'news-detail-date' new.id %}" class="list-group-item list-group-item-actions"> {{ new.date_create }}</a>
+            <a href="{% url 'news-detail' new.id %}" class="list-group-item list-group-item-actions"> {{ new.date_create }}</a>
             {% endfor %}
         </div>
     </div>
