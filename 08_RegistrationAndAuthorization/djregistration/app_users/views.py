@@ -25,7 +25,6 @@ class PtofileDetail(DetailView):
         return context
 
 
-
 class UserLoginView(LoginView):
     """Аутификация пользоваетлей"""
     template_name = 'app_users/user-login.html'

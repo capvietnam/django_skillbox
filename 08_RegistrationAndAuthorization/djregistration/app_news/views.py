@@ -10,6 +10,9 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import News, Comment
 from .forms import NewsForms, CommentForms
 from django.contrib.auth.models import User
+from django.core.exceptions import PermissionDenied
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from .permissions import UserRequiredMixin
 
 
 class HomeNews(ListView):
@@ -28,7 +31,7 @@ class HomeNews(ListView):
         return context
 
 
-class AddNews(CreateView):
+class AddNews(UserRequiredMixin, CreateView):
     """Создание новой новости через сайт"""
     form_class = NewsForms
     template_name = 'app_news/add-news.html'
@@ -39,7 +42,7 @@ class AddNews(CreateView):
         return context
 
 
-class NewsDetail(DetailView):
+class NewsDetail(UserRequiredMixin, DetailView):
     """Отдельная страница новости"""
     model = News
     template_name = 'app_news/news-detail.html'
@@ -50,30 +53,29 @@ class NewsDetail(DetailView):
         return context
 
     def post(self, request, pk):
-        # f = CommentForms(request.POST)
-        # if f.is_valid():
-        #     new_comment = f.save(commit=False)
-        #     new_comment.news = self.get_object()
-        #     if request.user.is_authenticated:
-        #         new_comment.user.username = request.user.username
-        #     f.save()
         f = CommentForms(request.POST)
         if f.is_valid():
-            new_comment = f.save(commit=False)
-            new_comment.news = self.get_object()
-            if request.user.is_authenticated:
-                new_comment.user = request.user
-            else:
-                new_comment.author += ' аноним'
-            f.save()
+            if request.user.has_perm('app_users.can_news'):
+                new_comment = f.save(commit=False)
+                new_comment.news = self.get_object()
+                if request.user.is_authenticated:
+                    new_comment.user = request.user
+                else:
+                    new_comment.author += ' аноним'
+                f.save()
         return redirect('/news/' + str(pk))
 
 
-class UpdateNews(UpdateView):
+class UpdateNews(UserRequiredMixin, UpdateView):
     """Изменение новости в базе данных"""
+
     model = News
     template_name = 'app_news/update-view.html'
     fields = ['title', 'description', 'is_published']
+
+    def form_valid(self, form):
+        if not request.user.has_perm('app_news.update_news'):
+            raise PermissionDenied()
 
     def get_success_url(self):
         return reverse('news-list')
