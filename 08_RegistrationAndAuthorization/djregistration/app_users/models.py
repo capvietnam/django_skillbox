@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User, AbstractUser
 from django.apps import apps
 from django.urls import reverse
-from app_news.models import News
+
 
 
 class Profile(models.Model):

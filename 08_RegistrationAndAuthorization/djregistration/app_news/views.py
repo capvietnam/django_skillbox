@@ -12,7 +12,7 @@ from .forms import NewsForms, CommentForms
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from .permissions import UserRequiredMixin
+from .permissions import UserRequiredMixin, AuthorRequiredMixin
 
 
 class HomeNews(ListView):
@@ -42,7 +42,7 @@ class AddNews(UserRequiredMixin, CreateView):
         return context
 
 
-class NewsDetail(UserRequiredMixin, DetailView):
+class NewsDetail(DetailView):
     """Отдельная страница новости"""
     model = News
     template_name = 'app_news/news-detail.html'
@@ -66,7 +66,7 @@ class NewsDetail(UserRequiredMixin, DetailView):
         return redirect('/news/' + str(pk))
 
 
-class UpdateNews(UserRequiredMixin, UpdateView):
+class UpdateNews(AuthorRequiredMixin, UpdateView):
     """Изменение новости в базе данных"""
 
     model = News

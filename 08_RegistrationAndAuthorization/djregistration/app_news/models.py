@@ -40,7 +40,6 @@ class News(models.Model):
     user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE, related_name='News',
                              verbose_name='Пользователь')
 
-
     def __str__(self):
         return self.title
 
