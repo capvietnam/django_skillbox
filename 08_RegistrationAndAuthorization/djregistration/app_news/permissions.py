@@ -6,7 +6,7 @@ from app_users.models import Profile
 
 class UserRequiredMixin:
     def has_permissions(self):
-        return Profile.objects.filter(user=self.request.user).values('can_news')[0]['can_news'] == True
+        return Profile.objects.filter(user=self.request.user).values('can_news')[0]['can_news']
 
     def dispatch(self, request, *args, **kwargs):
         if not self.has_permissions():

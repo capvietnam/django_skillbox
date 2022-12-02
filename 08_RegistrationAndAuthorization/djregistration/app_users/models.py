@@ -4,7 +4,6 @@ from django.apps import apps
 from django.urls import reverse
 
 
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     city = models.CharField(max_length=100, blank=True, verbose_name='Город')

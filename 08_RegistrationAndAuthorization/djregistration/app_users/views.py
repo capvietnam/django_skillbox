@@ -1,5 +1,4 @@
 from django.contrib.auth import authenticate, login
-
 from .forms import ProfileForm
 from django.apps import apps
 from django.contrib import messages
