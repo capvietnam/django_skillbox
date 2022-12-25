@@ -11,7 +11,7 @@
 {% block content %}
 
 <div class="col-md-12">
-    {% if request.user.profile.verification %}
+
     <form action="{% url 'add-blog' %}" method='post'>
         {% csrf_token %}
         <div class="card mb-3">
@@ -22,12 +22,13 @@
             {{ form.non_field_errors }}
 
             <div class="card-footer text-muted">
-                <button type="submit" class="btn btn-primary btn-block">Добавить новость</button>
+                <button type="submit" class="btn btn-primary btn-block">Добавить блог</button>
             </div>
 
 
         </div>
     </form>
+    {% if request.user.profile.verification %}
     {% else %}
     <p>Дождитесь проверки модератором</p>
     {% endif %}

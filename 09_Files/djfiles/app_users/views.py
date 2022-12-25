@@ -3,28 +3,70 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, AuthenticationForm, LogoutView
 from django.shortcuts import render, redirect
-from django.views.generic import DetailView
+from django.views.generic import DetailView, UpdateView
 from .forms import *
 from .models import Profile
+from django.template.context_processors import request
+from django.core.exceptions import PermissionDenied
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+
+class UpdateBlog(UpdateView):
+    """Изменение профиля в базе данных"""
+
+    model = User
+    template_name = 'app_user/change-profile.html'
+    fields = ['last_name', 'description']
+
+    def form_valid(self, form):
+        if not request.user.has_perm('app_blog.update_blog'):
+            raise PermissionDenied()
+
+    def get_success_url(self):
+        return reverse('user-profile')
 
 
 class UserLoginView(LoginView):
     template_name = 'app_users/user-login.html'
 
+    def get_success_url(self):
+        return "/blog/"
+
 
 class UserLogoutView(LogoutView):
     template_name = 'app_users/user-logout.html'
 
+    def get_success_url(self):
+        return "/blog/"
 
-class PtofileDetail(DetailView):
-    """Профиль"""
-    model = User
-    template_name = 'app_users/user-profile.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['ProfileForm'] = ProfileForm
-        return context
+# class PtofileDetail(DetailView):
+#     """Профиль"""
+#     model = User
+#     template_name = 'app_users/user-profile.html'
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['ProfileForm'] = ProfileForm
+#         return context
+
+
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        user_form = UpdateUserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Your profile is updated successfully')
+            return redirect(to='user-profile')
+    else:
+        user_form = UpdateUserForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.profile)
+
+    return render(request, 'app_users/user-profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
 def UserRegisterView(request):
@@ -34,15 +76,17 @@ def UserRegisterView(request):
             user = form.save()
             description = form.cleaned_data.get('description')
             last_name = form.cleaned_data.get('last_name')
+            avatar = form.cleaned_data.get('avatar')
             Profile.objects.create(user=user,
                                    last_name=last_name,
                                    description=description,
+                                   avatar=avatar
                                    )
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('news-list')
+            return redirect('blog-list')
         else:
             messages.error(request, 'Ошибка регистрации')
     else:

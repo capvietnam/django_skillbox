@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load poll_extras %}
 {% block navbar %}
 <ul class="navbar-nav me-auto">
     <li class="nav-item"><a class="nav-link" href="{% url 'add-blog' %}">Добавить объявление</a></li>
@@ -18,28 +18,15 @@
         </div>
     </div>
 
-    <div class="col-md-2">
-        <p>Отфильтровать по дате</p>
-        <div class="list-group">
-            {% for new in News %}
-            <a href="{% url 'news-detail' new.id %}" class="list-group-item list-group-item-actions"> {{ new.date_create }}</a>
-            {% endfor %}
-        </div>
-    </div>
-
     <div class="col-md-8">
-        {% for news_item in News %}
+        {% for blog in Blogs %}
         <div class="card mb-3">
             <div class="card-header">
-                Категория: {{ news_item.category }}
+                <p class="card-text"> Имя: {{ blog.user.username }}</p>
             </div>
             <div class="card-body">
-                <h5 class="card-title">{{ news_item.title }}</h5>
-                <p class="card-text">{{ news_item.description }}</p>
-                <a href="{% url 'news-detail' news_item.pk %}" class="btn btn-primary">Read more...</a>
-            </div>
-            <div class="card-footer text-muted">
-                {{ news_item.date_create|date:"Y-m-d" }}
+                <p class="card-text">{{ blog.description|truncatechars:105}}</p>
+                <a href="{% url 'blog-detail' blog.pk %}" class="btn btn-primary">Read more...</a>
             </div>
         </div>
         {% endfor %}

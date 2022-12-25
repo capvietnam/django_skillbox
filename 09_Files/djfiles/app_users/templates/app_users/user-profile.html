@@ -2,32 +2,56 @@
 
 {% block navbar %}
 
-<ul class="navbar-nav me-auto">
-    <li class="nav-item"><a class="nav-link" href="{% url 'blog-list' %}">Все объявления</a></li>
-    <li class="nav-item"><a class="nav-link" href="{% url 'add-blog' %}">Добавить объявление</a></li>
-    <li class="nav-item"><a class="nav-link" href="{% url 'upload-file' %}">Загрузить файл</a></li>
-</ul>
+    <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link" href="{% url 'blog-list' %}"> Все объявления </a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'add-blog' %}"> Добавить объявление </a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'upload-file' %}"> Загрузить файл </a></li>
+    </ul>
 
 {% endblock %}
 
 
 {% block content %}
-<div class="col-md-12">
-    <div class="card mb-3">
-        <div class="container-fluid">
-            <h5 class="card-title">{{ object.username }} {{ request.user.profile.last_name }}</h5>
-        </div>
-        <div class="form-group">
-            <div class="card-body">
-
-                <div class="card w-75">
-                    <div class="card-body">
-                        <h5 class="card-title">О себе: {{request.user.profile.description}}</h5>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+    {%  if user.profile.avatar %}
+    <div class="row my-3 p-3">
+        <img class="rounded-circle account-img" src="{{ user.profile.avatar.url }} " style="cursor: pointer;"/>
+        <img src="{{ request.user.profile.avatar.url}}" >
     </div>
-</div>
+    {% endif %}
+    {% if user_form.errors %}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <div id="form_errors">
+                {% for key, value in user_form.errors.items %}
+                    <strong>{{ value }}</strong>
+                {% endfor %}
+            </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+    <div class="form-content">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="small mb-1">Никнейм:</label>
+                        {{ user_form.username }}
+                    </div>
+                    <div class="form-group">
+                        <a href="#">Изменить пароль</a>
+                        <hr>
+                        <label class="small mb-1">Изменить аватар:</label>
+                        {{ profile_form.avatar }}
+                    </div>
+                    <label class="small mb-1">О себе:</label> {{ profile_form.description }}
+                    <label class="small mb-1"> Фамилия:</label> {{ profile_form.last_name }}
+                </div>
+            </div>
+            <br><br>
+            <button type="submit" class="btn btn-dark btn-lg">Сохранить настройки</button>
+            <button type="reset" class="btn btn-dark btn-lg">Сброс</button>
+        </form>
+    </div>
 {% endblock %}

@@ -12,6 +12,8 @@ from .forms import BlogForms
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+
+
 # from .permissions import UserRequiredMixin
 
 
@@ -24,8 +26,12 @@ class HomeBlog(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['Blog'] = self.model.objects.all()
+        context['Blogs'] = self.model.objects.all()
+        context['Users'] = User.objects.all()
         return context
+
+    def get_queryset(self):
+        return Blog.objects.order_by('date_create')
 
 
 class AddBlog(CreateView):
@@ -38,6 +44,19 @@ class AddBlog(CreateView):
         context['User'] = User
         return context
 
+    def get_success_url(self):
+        return reverse('list-blog')
+
+    def post(self, request):
+        if request.method == "POST":
+            form = BlogForms(request.POST)
+            if form.is_valid():
+                new_blog = form.save(commit=False)
+                new_blog.description = form.cleaned_data.get('description')
+                new_blog.user = request.user
+                form.save()
+                return redirect('/blog/')
+
 
 class BlogDetail(DetailView):
     """Отдельная страница новости"""
@@ -49,7 +68,7 @@ class UpdateBlog(UpdateView):
     """Изменение новости в базе данных"""
 
     model = Blog
-    template_name = 'app_news/update-view.html'
+    template_name = 'app_blog/update-blog.html'
     fields = ['title', 'description']
 
     def form_valid(self, form):

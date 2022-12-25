@@ -1,3 +1,12 @@
 from django.contrib import admin
+from .models import Blog, User
 
-# Register your models here.
+
+class BlogAdmin(admin.ModelAdmin):
+    list_display = ('id', 'description', 'file', 'date_create',  'user',)
+    list_display_links = ('id', 'description', 'date_create', 'user',)
+    search_fields = ('description', )
+
+
+
+admin.site.register(Blog, BlogAdmin)
