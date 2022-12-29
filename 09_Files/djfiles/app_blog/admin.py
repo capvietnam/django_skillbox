@@ -3,7 +3,7 @@ from .models import Blog, User
 
 
 class BlogAdmin(admin.ModelAdmin):
-    list_display = ('id', 'description', 'file', 'date_create',  'user',)
+    list_display = ('id', 'description', 'files', 'date_create',  'user',)
     list_display_links = ('id', 'description', 'date_create', 'user',)
     search_fields = ('description', )
 

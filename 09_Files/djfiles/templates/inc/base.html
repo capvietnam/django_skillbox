@@ -17,7 +17,7 @@
         <span class="navbar-text">
             {% if request.user.is_authenticated %}
             <div>
-                <a href="{% url 'user-profile' user.pk %}"> Мой профиль </a>
+                <a href="{% url 'user-profile' %}"> Мой профиль </a>
             </div>
                 <a href="{% url 'user-logout' %}"> Выход </a>
             {% else %}

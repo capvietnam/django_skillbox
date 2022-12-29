@@ -11,5 +11,3 @@ urlpatterns = [
     path(r'profile/', views.profile, name=r'user-profile'),
 ]
 
-if settings.DEBUG:
-    urlpatterns += staticfiles_urlpatterns() + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

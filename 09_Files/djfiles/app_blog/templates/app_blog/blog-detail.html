@@ -1,84 +1,53 @@
 {% extends 'base.html' %}
 
+
 {% block navbar %}
-
-<ul class="navbar-nav me-auto">
-    <li class="nav-item"><a class="nav-link" href="{% url 'news-list' %}">Все объявления</a></li>
-    <li class="nav-item"><a class="nav-link" href="{% url 'add-news' %}">Добавить объявление</a></li>
-    <li class="nav-item"><a class="nav-link" href="{% url 'update-news' pk=object.id %}">Изменить объявление</a>
-    </li>
-</ul>
-
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="{% url 'blog-list' %}">Все объявления</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'add-blog' %}">Добавить объявление</a></li>
+    </ul>
 {% endblock %}
 
 
 {% block content %}
-<div class="col-md-12">
-    <div class="card mb-3">
-        <div class="card-body">
-            <h5 class="card-title">{{ object.title }}</h5>
-            <p class="card-text">{{ object.description }}</p>
+
+    <div class="col-md-12">
+        <div class="row my-3 p-3 col-3" width="150">
+            {% for file in blog.file %}
+            <img class="rounded-circle z-depth-0" src="{{ blog.files.file.url }}" height="200">
         </div>
-        <div class="card-footer text-muted">
-            {{ object.date_update|date:"Y-m-d" }}
-        </div>
-        <div class="text-center">
-            <h5> Комментарии </h5>
-        </div>
-        <div class="form-group">
-            <div class="card-body">
-                {% for comment in object.comments.all %}
-                <div class="card w-75">
-                    <div class="card-body">
-                        <h5 class="card-title">{{comment.user.username}}</h5>
-                        <h5 class="card-title">{{comment.author}}</h5>
-                        <p class="card-text">{{comment.description}}</p>
-                    </div>
+        {% if user_form.errors %}
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <div id="form_errors">
+                    {% for key, value in user_form.errors.items %}
+                        <strong>{{ value }}</strong>
+                    {% endfor %}
                 </div>
-                {% endfor %}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+        <div class="col">
+            <div class="form-content">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label class="small mb-1">Никнейм:</label>
+                                {{ user_form.username }}
+                            </div>
+                            <label class="small mb-1">О себе:</label> {{ profile_form.description }}
+                            <label class="small mb-1"> Фамилия:</label> {{ profile_form.last_name }}
+                            <label class="small mb-1"> Аватар:</label> {{ profile_form.avatar }}
+                        </div>
+                    </div>
+                    <br><br>
+                    <button type="submit" class="btn btn-dark btn-lg">Сохранить настройки</button>
+                    <button type="reset" class="btn btn-dark btn-lg">Сброс</button>
+                </form>
             </div>
         </div>
-
-        <div class="text-center">
-            <h5> Добавить комментарий </h5>
-        </div>
-
-        <div>
-            <form method='post'>
-                {% csrf_token %}
-                <div class="card-body">
-                    {% if not request.user.is_authenticated %}
-                    <div class="form-group">
-                        <label for="{{ form.author.id_for_label }}"> Автор </label>
-                        {{ CommentForms.author }}
-                        <div class="invalid-feedback">
-                            {{ CommentForms.author.errors }}
-                        </div>
-                    </div>
-                    {% endif %}
-                    <div class="form-group">
-                        <label for="{{ form.description.id_for_label }}"> Коментарий </label>
-                        {{ CommentForms.description }}
-                        <div class="invalid-feedback">
-                            {{ CommentForms.description.errors }}
-                        </div>
-                    </div>
-                </div>
-                {{ form.non_field_errors }}
-
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <button type="submit" class="btn btn-primary btn-block">Добавить комментарий
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-
     </div>
-</div>
 {% endblock %}

@@ -22,15 +22,11 @@
             {{ form.non_field_errors }}
 
             <div class="card-footer text-muted">
-                <button type="submit" class="btn btn-primary btn-block">Добавить блог</button>
+                <button type="submit" class="btn btn-primary btn-block">Добавить новость</button>
             </div>
 
 
         </div>
     </form>
-    {% if request.user.profile.verification %}
-    {% else %}
-    <p>Дождитесь проверки модератором</p>
-    {% endif %}
 </div>
 {% endblock %}

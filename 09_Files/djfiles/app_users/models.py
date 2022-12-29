@@ -5,11 +5,12 @@ from django.urls import reverse
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, related_name='profile')
-    last_name = models.CharField(max_length=64, verbose_name='Фамилия')
+    last_name = models.CharField(max_length=64, verbose_name='Фамилия', blank=True)
     description = models.CharField(max_length=64, verbose_name='О себе', blank=True)
+    avatar = models.ImageField(upload_to='images/', blank=True, null=True, verbose_name='изображение')
 
     def __str__(self):
-        return self.user.name
+        return self.user.username
 
     def get_absolute_url(self):
         return reverse('user-profile', kwargs={'user': self.user})

@@ -6,17 +6,21 @@
         <li class="nav-item"><a class="nav-link" href="{% url 'blog-list' %}"> Все объявления </a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'add-blog' %}"> Добавить объявление </a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'upload-file' %}"> Загрузить файл </a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'upload-files' %}"> Загрузить файлы </a></li>
     </ul>
 
 {% endblock %}
 
 
 {% block content %}
-    {%  if user.profile.avatar %}
-    <div class="row my-3 p-3">
-        <img class="rounded-circle account-img" src="{{ user.profile.avatar.url }} " style="cursor: pointer;"/>
-        <img src="{{ request.user.profile.avatar.url}}" >
-    </div>
+    {% if request.user.profile.avatar %}
+
+        <div class="row my-3 p-3 col-3" width="150">
+            <img class="rounded-circle z-depth-0" src="{{ request.user.profile.avatar.url }}" height="200">
+            {% comment %}
+                <img src="{{ MEDIA_URL }}{{ request.user.profile.avatar.url }}" width="50" height="300">
+            {% endcomment %}
+        </div>
     {% endif %}
     {% if user_form.errors %}
         <div class="alert alert-danger alert-dismissible" role="alert">
@@ -30,28 +34,25 @@
             </button>
         </div>
     {% endif %}
-    <div class="form-content">
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="form-row">
-                <div class="col-md-5">
-                    <div class="form-group">
-                        <label class="small mb-1">Никнейм:</label>
-                        {{ user_form.username }}
+    <div class="col">
+        <div class="form-content">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label class="small mb-1">Никнейм:</label>
+                            {{ user_form.username }}
+                        </div>
+                        <label class="small mb-1">О себе:</label> {{ profile_form.description }}
+                        <label class="small mb-1"> Фамилия:</label> {{ profile_form.last_name }}
+                        <label class="small mb-1"> Аватар:</label> {{ profile_form.avatar }}
                     </div>
-                    <div class="form-group">
-                        <a href="#">Изменить пароль</a>
-                        <hr>
-                        <label class="small mb-1">Изменить аватар:</label>
-                        {{ profile_form.avatar }}
-                    </div>
-                    <label class="small mb-1">О себе:</label> {{ profile_form.description }}
-                    <label class="small mb-1"> Фамилия:</label> {{ profile_form.last_name }}
                 </div>
-            </div>
-            <br><br>
-            <button type="submit" class="btn btn-dark btn-lg">Сохранить настройки</button>
-            <button type="reset" class="btn btn-dark btn-lg">Сброс</button>
-        </form>
+                <br><br>
+                <button type="submit" class="btn btn-dark btn-lg">Сохранить настройки</button>
+                <button type="reset" class="btn btn-dark btn-lg">Сброс</button>
+            </form>
+        </div>
     </div>
 {% endblock %}

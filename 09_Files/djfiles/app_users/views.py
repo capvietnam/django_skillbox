@@ -11,6 +11,7 @@ from django.core.exceptions import PermissionDenied
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
+
 class UpdateBlog(UpdateView):
     """Изменение профиля в базе данных"""
 
@@ -65,7 +66,6 @@ def profile(request):
     else:
         user_form = UpdateUserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
-
     return render(request, 'app_users/user-profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
@@ -76,11 +76,9 @@ def UserRegisterView(request):
             user = form.save()
             description = form.cleaned_data.get('description')
             last_name = form.cleaned_data.get('last_name')
-            avatar = form.cleaned_data.get('avatar')
             Profile.objects.create(user=user,
                                    last_name=last_name,
                                    description=description,
-                                   avatar=avatar
                                    )
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
