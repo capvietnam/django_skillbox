@@ -5,8 +5,10 @@ from django.shortcuts import render, redirect
 from .forms import UploadFileForm, MultiFileForm
 # from .models import Avatar
 from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import File
+
 
 @login_required
 def UploadFile(request):
@@ -22,6 +24,7 @@ def UploadFile(request):
         'form': add_file_form
     }
     return render(request, 'upload_file.html', context=context)
+
 
 @login_required
 def UploadFiles(request):

@@ -15,6 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.forms import modelformset_factory
 # from .permissions import UserRequiredMixin
 from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class HomeBlog(ListView):
@@ -44,9 +45,9 @@ class BlogDetail(DetailView):
         context['images'] = Images.objects.all()
         return context
 
+
 @login_required
 def AddBlog(request):
-
     if request.method == "POST":
         # images will be in request.FILES
         form = BlogFormFull(request.POST or None, request.FILES or None)
@@ -55,7 +56,7 @@ def AddBlog(request):
             user = request.user
             description = form.cleaned_data['description']
             blog_obj = Blog.objects.create(user=user,
-                                           description=description,)  # create will create as well as save too in db.
+                                           description=description, )  # create will create as well as save too in db.
             for image in images:
                 Images.objects.create(blog=blog_obj, image=image)
             return render(request, 'app_blog/add-blog.html', {})
@@ -70,8 +71,7 @@ def AddBlog(request):
 #     model = Blog
 #     template_name = 'app_blog/blog-detail.html'
 
-@login_required
-class UpdateBlog(UpdateView):
+class UpdateBlog(LoginRequiredMixin, UpdateView):
     """Изменение новости в базе данных"""
 
     model = Blog
@@ -84,6 +84,7 @@ class UpdateBlog(UpdateView):
 
     def get_success_url(self):
         return reverse('blog-list')
+
 
 @login_required
 def upload_blog(request):

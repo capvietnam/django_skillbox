@@ -10,6 +10,7 @@ from django.template.context_processors import request
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 
