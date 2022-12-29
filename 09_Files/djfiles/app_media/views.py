@@ -1,4 +1,5 @@
 # from django.core.files import File
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .forms import UploadFileForm, MultiFileForm
@@ -7,7 +8,7 @@ from django.contrib.auth.models import User
 
 from .models import File
 
-
+@login_required
 def UploadFile(request):
     if request.method == 'POST':
         add_file_form = UploadFileForm(request.POST, request.FILES)
@@ -22,7 +23,7 @@ def UploadFile(request):
     }
     return render(request, 'upload_file.html', context=context)
 
-
+@login_required
 def UploadFiles(request):
     if request.method == 'POST':
         form = MultiFileForm(request.POST, request.FILES)

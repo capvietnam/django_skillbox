@@ -1,53 +1,29 @@
 {% extends 'base.html' %}
 
-
 {% block navbar %}
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link" href="{% url 'blog-list' %}">Все объявления</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'add-blog' %}">Добавить объявление</a></li>
-    </ul>
+
+<ul class="navbar-nav me-auto">
+    <li class="nav-item"><a class="nav-link" href="{% url 'blog-list' %}">Все объявления </a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'add-blog' %}"> Добавить объявление </a></li>
+</ul>
+
 {% endblock %}
 
 
 {% block content %}
-
-    <div class="col-md-12">
-        <div class="row my-3 p-3 col-3" width="150">
-            {% for file in blog.file %}
-            <img class="rounded-circle z-depth-0" src="{{ blog.files.file.url }}" height="200">
+<div class="col-md-12">
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ object.user.username }}</h5>
+            <p class="card-text">{{ object.description }}</p>
         </div>
-        {% if user_form.errors %}
-            <div class="alert alert-danger alert-dismissible" role="alert">
-                <div id="form_errors">
-                    {% for key, value in user_form.errors.items %}
-                        <strong>{{ value }}</strong>
-                    {% endfor %}
-                </div>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        {% endif %}
-        <div class="col">
-            <div class="form-content">
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="form-row">
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label class="small mb-1">Никнейм:</label>
-                                {{ user_form.username }}
-                            </div>
-                            <label class="small mb-1">О себе:</label> {{ profile_form.description }}
-                            <label class="small mb-1"> Фамилия:</label> {{ profile_form.last_name }}
-                            <label class="small mb-1"> Аватар:</label> {{ profile_form.avatar }}
-                        </div>
-                    </div>
-                    <br><br>
-                    <button type="submit" class="btn btn-dark btn-lg">Сохранить настройки</button>
-                    <button type="reset" class="btn btn-dark btn-lg">Сброс</button>
-                </form>
-            </div>
+        <div class="row my-3 p-3 col-3">
+            {% for image in images %}
+                {% if image.blog == object %}
+                <img src="{{ image.image.url }}">
+                {% endif %}
+            {% endfor %}
         </div>
     </div>
+</div>
 {% endblock %}

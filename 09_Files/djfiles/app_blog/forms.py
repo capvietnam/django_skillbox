@@ -1,19 +1,21 @@
 from django import forms
-from .models import Blog, File
+from .models import Blog
 
 
-class BlogForms(forms.ModelForm):
+class BlogForm(forms.ModelForm):
     class Meta:
         model = Blog
-        fields = ['description']
+        fields = ['description', ]
         widgets = {
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
         }
 
 
-class FileForms(forms.ModelForm):
-    file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+class BlogFormFull(BlogForm):
+    images = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
 
-    class Meta:
-        model = File
-        fields = ['file_field']
+    class Meta(BlogForm.Meta):
+        fields = BlogForm.Meta.fields + ['images', ]
+
+class UploadBlogForm(forms.Form):
+    file = forms.FileField()

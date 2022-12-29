@@ -12,19 +12,6 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 
-class UpdateBlog(UpdateView):
-    """Изменение профиля в базе данных"""
-
-    model = User
-    template_name = 'app_user/change-profile.html'
-    fields = ['last_name', 'description']
-
-    def form_valid(self, form):
-        if not request.user.has_perm('app_blog.update_blog'):
-            raise PermissionDenied()
-
-    def get_success_url(self):
-        return reverse('user-profile')
 
 
 class UserLoginView(LoginView):
@@ -41,15 +28,6 @@ class UserLogoutView(LogoutView):
         return "/blog/"
 
 
-# class PtofileDetail(DetailView):
-#     """Профиль"""
-#     model = User
-#     template_name = 'app_users/user-profile.html'
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['ProfileForm'] = ProfileForm
-#         return context
 
 
 @login_required

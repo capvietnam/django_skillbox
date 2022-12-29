@@ -2,31 +2,27 @@
 
 
 {% block navbar %}
-<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-    <li class="nav-item"><a class="nav-link" href="{% url 'blog-list' %}">Все объявления</a></li>
-</ul>
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="{% url 'blog-list' %}">Все объявления</a></li>
+    </ul>
 {% endblock %}
 
 
 {% block content %}
 
-<div class="col-md-12">
+    <div class="col-md-12">
 
-    <form action="{% url 'add-blog' %}" method='post'>
-        {% csrf_token %}
-        <div class="card mb-3">
-
-            <div class="card-body">
-                {{form.as_p}}
+        <form action="{% url 'add-blog' %}" method="post" class="blog-form" enctype="multipart/form-data">{% csrf_token %}
+            <div class="form-group">
+                <label for="note-description">Description</label>
+                <textarea type="text" name="description" class="form-control" id="blog-description"
+                          placeholder="Description here"></textarea>
             </div>
-            {{ form.non_field_errors }}
-
-            <div class="card-footer text-muted">
-                <button type="submit" class="btn btn-primary btn-block">Добавить новость</button>
+            <div class="form-group">
+                <label for="note-image">Images</label>
+                <input type="file" name="images" class="form-control-file" id="blog-image" multiple>
             </div>
-
-
-        </div>
-    </form>
-</div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
 {% endblock %}

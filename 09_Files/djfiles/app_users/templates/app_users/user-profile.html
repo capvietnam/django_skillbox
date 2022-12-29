@@ -15,7 +15,7 @@
 {% block content %}
     {% if request.user.profile.avatar %}
 
-        <div class="row my-3 p-3 col-3" width="150">
+        <div class="row my-3 p-3 col-3">
             <img class="rounded-circle z-depth-0" src="{{ request.user.profile.avatar.url }}" height="200">
             {% comment %}
                 <img src="{{ MEDIA_URL }}{{ request.user.profile.avatar.url }}" width="50" height="300">

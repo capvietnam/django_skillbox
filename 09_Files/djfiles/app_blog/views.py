@@ -1,3 +1,6 @@
+from _csv import reader
+from decimal import Decimal
+
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
@@ -6,11 +9,12 @@ from django.template.context_processors import request
 from django.urls import reverse
 from django.views.generic import ListView, DetailView, UpdateView, CreateView
 from django.contrib import messages
-from .forms import BlogForms, FileForms
-from .models import Blog
-
-
+from .forms import BlogForm, BlogFormFull, UploadBlogForm
+from .models import Blog, Images
+from django.contrib.auth.decorators import login_required
+from django.forms import modelformset_factory
 # from .permissions import UserRequiredMixin
+from django.http import HttpResponseRedirect, HttpResponse
 
 
 class HomeBlog(ListView):
@@ -30,32 +34,35 @@ class HomeBlog(ListView):
         return Blog.objects.order_by('date_create')
 
 
-def BlogDetail(request, pk):
-    blog = Blog.objects.get(id=pk)
-    if request.method == "POST":
-        blog_form = BlogForms(request.POST, instance=Blog.objects.get(id=pk))
-        file_form = FileForms(request.POST, request.FILES, instance=Blog.objects.get(id=pk).files)
-
-        if blog_form.is_valid() and file_form.is_valid():
-            blog_form.save()
-            file_form.save()
-            messages.success(request, 'Your profile is updated successfully')
-            return redirect(to='user-profile')
-    else:
-        blog_form = BlogForms(instance=Blog.objects.get(id=pk))
-        file_form = FileForms(instance=Blog.objects.get(id=pk).files)
-    return render(request, 'app_blog/add-blog.html', {'blog_form': blog_form, 'file_form': file_form, 'blog': blog})
-
-
-class AddBlog(CreateView):
-    """Создание новой новости через сайт"""
-    form_class = BlogForms
-    template_name = 'app_blog/add-blog.html'
+class BlogDetail(DetailView):
+    """Отдельная страница новости"""
+    model = Blog
+    template_name = 'app_blog/blog-detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['User'] = User
+        context['images'] = Images.objects.all()
         return context
+
+@login_required
+def AddBlog(request):
+
+    if request.method == "POST":
+        # images will be in request.FILES
+        form = BlogFormFull(request.POST or None, request.FILES or None)
+        images = request.FILES.getlist('images')
+        if form.is_valid():
+            user = request.user
+            description = form.cleaned_data['description']
+            blog_obj = Blog.objects.create(user=user,
+                                           description=description,)  # create will create as well as save too in db.
+            for image in images:
+                Images.objects.create(blog=blog_obj, image=image)
+            return render(request, 'app_blog/add-blog.html', {})
+        else:
+            return render(request, 'g/add-blog.html', {})
+    else:
+        return render(request, 'app_blog/add-blog.html', {})
 
 
 # class BlogDetail(DetailView):
@@ -63,7 +70,7 @@ class AddBlog(CreateView):
 #     model = Blog
 #     template_name = 'app_blog/blog-detail.html'
 
-
+@login_required
 class UpdateBlog(UpdateView):
     """Изменение новости в базе данных"""
 
@@ -77,3 +84,20 @@ class UpdateBlog(UpdateView):
 
     def get_success_url(self):
         return reverse('blog-list')
+
+@login_required
+def upload_blog(request):
+    if request.method == "POST":
+        upload_blog_form = UploadBlogForm(request.POST, request.FILES)
+        if upload_blog_form.is_valid():
+            blog_file = upload_blog_form.cleaned_data['file'].read()
+            blog_str = blog_file.decode('utf-8').split('\n')
+            csv_reader = reader(blog_str, delimiter=',', quotechar='"')
+            for row in csv_reader:
+                Blog.objects.filter(description=row[0].update(date_create=Decimal(row[1])))
+            return HttpResponse(content='Блоги успешно обновлены', status=200)
+    else:
+        upload_blog_form = UploadBlogForm()
+
+    context = {'form': upload_blog_form}
+    return render(request, 'app_blog/upload-blog-file.html', context=context)

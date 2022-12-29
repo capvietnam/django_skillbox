@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+
+<ul class="navbar-nav me-auto">
+    <li class="nav-item"><a class="nav-link" href="{% url 'blog-list' %}">Все объявления </a></li>
+</ul>
+
+{% endblock %}
+
+
+{% block content %}
+<div class="col-md-12">
+    <form  method='post' enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="card-body">
+                {{form.as_p}}
+
+            </div>
+            {{ form.non_field_errors }}
+
+            <div class="card-footer text-muted">
+                <button type="submit" class="btn btn-primary btn-block">Загрузить файл</button>
+            </div>
+        </form>
+</div>
+{% endblock %}
