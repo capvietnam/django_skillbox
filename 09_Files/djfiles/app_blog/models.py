@@ -3,7 +3,6 @@ from django.db import models
 from django.urls import reverse
 
 
-
 class Blog(models.Model):
     user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE, related_name='Blog',
                              verbose_name='Пользователь')

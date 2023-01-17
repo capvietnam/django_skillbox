@@ -13,8 +13,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-
-
 class UserLoginView(LoginView):
     template_name = 'app_users/user-login.html'
 
@@ -27,8 +25,6 @@ class UserLogoutView(LogoutView):
 
     def get_success_url(self):
         return "/blog/"
-
-
 
 
 @login_required

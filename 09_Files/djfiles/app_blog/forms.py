@@ -17,5 +17,6 @@ class BlogFormFull(BlogForm):
     class Meta(BlogForm.Meta):
         fields = BlogForm.Meta.fields + ['images', ]
 
+
 class UploadBlogForm(forms.Form):
     file = forms.FileField()

@@ -40,6 +40,7 @@ class BlogDetail(DetailView):
     model = Blog
     template_name = 'app_blog/blog-detail.html'
 
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['images'] = Images.objects.all()
@@ -61,29 +62,38 @@ def AddBlog(request):
                 Images.objects.create(blog=blog_obj, image=image)
             return render(request, 'app_blog/add-blog.html', {})
         else:
-            return render(request, 'g/add-blog.html', {})
+            return render(request, 'app_blog/add-blog.html', {})
     else:
         return render(request, 'app_blog/add-blog.html', {})
-
+# class AddBlog(LoginRequiredMixin, CreateView):
+#     form_class = BlogFormFull
+#     template_name = 'app_blog/add-blog.html'
+#
+#     def form_valid(self, form):
+#         obj = form.save(commit=False)
+#         obj.user = self.request.user
+#         obj.save()
+#         return HttpResponse(content='Блоги успешно обновлены', status=200)
+#
 
 # class BlogDetail(DetailView):
 #     """Отдельная страница новости"""
 #     model = Blog
 #     template_name = 'app_blog/blog-detail.html'
 
-class UpdateBlog(LoginRequiredMixin, UpdateView):
-    """Изменение новости в базе данных"""
-
-    model = Blog
-    template_name = 'app_blog/update-blog.html'
-    fields = ['title', 'description']
-
-    def form_valid(self, form):
-        if not request.user.has_perm('app_blog.update_blog'):
-            raise PermissionDenied()
-
-    def get_success_url(self):
-        return reverse('blog-list')
+# class UpdateBlog(LoginRequiredMixin, UpdateView):
+#     """Изменение новости в базе данных"""
+#
+#     model = Blog
+#     template_name = 'app_blog/update-blog.html'
+#     fields = ['description']
+#
+#     def form_valid(self, form):
+#         if not request.user.has_perm('app_blog.update_blog'):
+#             raise PermissionDenied()
+#
+#     def get_success_url(self):
+#         return reverse('blog-list')
 
 
 @login_required
