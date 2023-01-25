@@ -40,7 +40,6 @@ class BlogDetail(DetailView):
     model = Blog
     template_name = 'app_blog/blog-detail.html'
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['images'] = Images.objects.all()
@@ -50,7 +49,8 @@ class BlogDetail(DetailView):
 @login_required
 def AddBlog(request):
     if request.method == "POST":
-        # images will be in request.FILES
+        # images will be in request.F
+        # ILES
         form = BlogFormFull(request.POST or None, request.FILES or None)
         images = request.FILES.getlist('images')
         if form.is_valid():
@@ -65,6 +65,8 @@ def AddBlog(request):
             return render(request, 'app_blog/add-blog.html', {})
     else:
         return render(request, 'app_blog/add-blog.html', {})
+
+
 # class AddBlog(LoginRequiredMixin, CreateView):
 #     form_class = BlogFormFull
 #     template_name = 'app_blog/add-blog.html'

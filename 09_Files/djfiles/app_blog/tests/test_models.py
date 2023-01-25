@@ -11,6 +11,7 @@ class BlogTests(TestCase):
 
     def test_description_label(self):
         blog = Blog.objects.get(id=1)
+
         field_label = blog._meta.get_field('description').verbose_name
         self.assertEquals(field_label, 'description')
 

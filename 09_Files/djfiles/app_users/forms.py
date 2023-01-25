@@ -18,9 +18,10 @@ class LoginForm(UserCreationForm):
                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
     description = forms.CharField(label='О себе',
                                   widget=forms.TextInput(attrs={'class': 'form-control'}))
+
     class Mete:
         model = User
-        fields = ('username', 'last_name', 'description', 'password', 'password1' )
+        fields = ('username', 'last_name', 'description', 'password', 'password1')
 
 
 class UserForm(forms.Form):

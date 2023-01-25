@@ -32,7 +32,6 @@ def profile(request):
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=request.user)
         profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
-
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
@@ -46,7 +45,7 @@ def profile(request):
 
 def UserRegisterView(request):
     if request.method == 'POST':
-        form = LoginForm(request.POST)
+        form = LoginForm(request.POST or None)
         if form.is_valid():
             user = form.save()
             description = form.cleaned_data.get('description')
