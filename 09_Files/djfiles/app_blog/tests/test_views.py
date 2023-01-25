@@ -86,9 +86,9 @@ class AddBlogTest(TestCase):
 
         # self.assertEqual(response.status_code, 200)
 
+
 # class UploadBlogTest(TestCase):
 #
-
 #     @classmethod
 #     def setUpTestData(cls):
 #         user = get_user_model()
@@ -104,7 +104,7 @@ class AddBlogTest(TestCase):
 #         self.client.force_login(self.user)
 #         response = self.client.get(reverse('upload-blog'))
 #         self.assertEqual(response.status_code, 200)
-#         file_csv = SimpleUploadedFile('test.csv', b"file_content")
+#         file_csv = SimpleUploadedFile(name='test.csv', content=open("test.csv", 'rb').read(), )
 #         response = self.client.post(reverse('upload-blog'),
 #                                     data={'file': file_csv},
 #                                     follow=True)

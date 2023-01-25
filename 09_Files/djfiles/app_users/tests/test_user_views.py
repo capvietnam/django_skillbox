@@ -31,34 +31,6 @@ class RegisterTest(TestCase):
         self.assertEqual(getattr(Profile.objects.first(), 'description'), '122')
 
 
-# class AddBlogTest(TestCase):
-#
-#     @classmethod
-#     def setUpTestData(cls):
-#         user = get_user_model()
-#         image = Image.open('61e6781dc38aa.jpg')
-#         cls.user = user.objects.create_user(
-#             email='asdf@gmail.com',
-#             password='hiwa_asdf',
-#             username='smile',
-#             last_name='fred',
-#         )
-#
-#     def test_add_blog(self):
-#         self.client = Client()
-#         self.client.force_login(self.user)
-#         response = self.client.get(reverse('add-blog'))
-#         self.assertEqual(response.status_code, 200)
-#         image = SimpleUploadedFile('61e6781dc38aa.jpg', b"file_content")
-#         response = self.client.post(reverse('add-blog'),
-#                                     data={'description': 'The Catcher in the Rye', 'images': image},
-#                                     follow=True)
-#         blog = Blog.objects.count()
-#         self.assertEqual(blog, 1)
-#
-#         # self.assertEqual(response.status_code, 200)
-
-
 class ProfileTest(TestCase):
     def test_view_uses_correct_template(self):
         resp = self.client.get(reverse('user-profile'))
