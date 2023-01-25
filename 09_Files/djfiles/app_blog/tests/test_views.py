@@ -87,26 +87,26 @@ class AddBlogTest(TestCase):
         # self.assertEqual(response.status_code, 200)
 
 
-# class UploadBlogTest(TestCase):
-#
-#     @classmethod
-#     def setUpTestData(cls):
-#         user = get_user_model()
-#         cls.user = user.objects.create_user(
-#             email='asdf@gmail.com',
-#             password='hiwa_asdf',
-#             username='smile',
-#             last_name='fred',
-#         )
-#
-#     def test_upload_blog(self):
-#         self.client = Client()
-#         self.client.force_login(self.user)
-#         response = self.client.get(reverse('upload-blog'))
-#         self.assertEqual(response.status_code, 200)
-#         file_csv = SimpleUploadedFile(name='test.csv', content=open("test.csv", 'rb').read(), )
-#         response = self.client.post(reverse('upload-blog'),
-#                                     data={'file': file_csv},
-#                                     follow=True)
-#         # blog = Blog.objects.count()
-#         # self.assertEqual(blog, 2)
+class UploadBlogTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        user = get_user_model()
+        cls.user = user.objects.create_user(
+            email='asdf@gmail.com',
+            password='hiwa_asdf',
+            username='smile',
+            last_name='fred',
+        )
+
+    def test_upload_blog(self):
+        self.client = Client()
+        self.client.force_login(self.user)
+        response = self.client.get(reverse('upload-blog'))
+        self.assertEqual(response.status_code, 200)
+        file_csv = SimpleUploadedFile(name='test.csv', content=open("test.csv", 'rb').read(), )
+        response = self.client.post(reverse('upload-blog'),
+                                    data={'file': file_csv},
+                                    follow=True)
+        blog = Blog.objects.count()
+        self.assertEqual(blog, 2)
