@@ -1,22 +1,23 @@
 from django import forms
 from .models import Profile
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
 
 
 class AuthenticationForms(AuthenticationForm):
-    username = forms.CharField(label='Имя пользователя',
+    username = forms.CharField(label=_('Nickname'),
                                widget=forms.TextInput(attrs={'class': 'form-control'}))
-    password = forms.CharField(label='Пароль',
+    password = forms.CharField(label=_('Password'),
                                widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
 
 class LoginForm(UserCreationForm):
-    username = forms.CharField(label='Никнейм',
+    username = forms.CharField(label=_('Nickname'),
                                widget=forms.TextInput(attrs={'class': 'form-control'}))
-    last_name = forms.CharField(label='Фамилия',
+    last_name = forms.CharField(label=_('Surname'),
                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
-    description = forms.CharField(label='О себе',
+    description = forms.CharField(label=_('About me'),
                                   widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     class Mete:

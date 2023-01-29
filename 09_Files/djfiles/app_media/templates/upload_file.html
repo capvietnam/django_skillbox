@@ -1,14 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Загрузка файла</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block navbar %}
+
+<ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+
+{% endblock %}
+
+{% block content %}
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="sumbit"> Загрузить файл</button>
+    <button type="sumbit">{% trans  'Upload file' %}</button>
 </form>
-</body>
-</html>
+{% endblock %}

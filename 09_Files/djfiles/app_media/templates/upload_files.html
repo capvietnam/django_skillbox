@@ -1,5 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block navbar %}
+
+<ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+
+{% endblock %}
+
+{% block content %}
 <head>
     <meta charset="UTF-8">
     <title>Загрузка файла</title>
@@ -8,7 +16,7 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="sumbit"> Загрузить файлы</button>
+    <button type="sumbit">{% trans  'Upload files' %}</button>
 </form>
 </body>
-</html>
+{% endblock %}

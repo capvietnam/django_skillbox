@@ -1,21 +1,14 @@
+
 from _csv import reader
 from decimal import Decimal
-
-from django.shortcuts import render
 from django.contrib.auth.models import User
-from django.core.exceptions import PermissionDenied
-from django.shortcuts import render, redirect
-from django.template.context_processors import request
-from django.urls import reverse
-from django.views.generic import ListView, DetailView, UpdateView, CreateView
-from django.contrib import messages
-from .forms import BlogForm, BlogFormFull, UploadBlogForm
+from django.shortcuts import render
+from django.views.generic import ListView, DetailView
+from .forms import BlogFormFull, UploadBlogForm
 from .models import Blog, Images
 from django.contrib.auth.decorators import login_required
-from django.forms import modelformset_factory
-# from .permissions import UserRequiredMixin
-from django.http import HttpResponseRedirect, HttpResponse
-from django.contrib.auth.mixins import LoginRequiredMixin
+
+from django.http import HttpResponse
 
 
 class HomeBlog(ListView):
@@ -65,37 +58,6 @@ def AddBlog(request):
             return render(request, 'app_blog/add-blog.html', {})
     else:
         return render(request, 'app_blog/add-blog.html', {})
-
-
-# class AddBlog(LoginRequiredMixin, CreateView):
-#     form_class = BlogFormFull
-#     template_name = 'app_blog/add-blog.html'
-#
-#     def form_valid(self, form):
-#         obj = form.save(commit=False)
-#         obj.user = self.request.user
-#         obj.save()
-#         return HttpResponse(content='Блоги успешно обновлены', status=200)
-#
-
-# class BlogDetail(DetailView):
-#     """Отдельная страница новости"""
-#     model = Blog
-#     template_name = 'app_blog/blog-detail.html'
-
-# class UpdateBlog(LoginRequiredMixin, UpdateView):
-#     """Изменение новости в базе данных"""
-#
-#     model = Blog
-#     template_name = 'app_blog/update-blog.html'
-#     fields = ['description']
-#
-#     def form_valid(self, form):
-#         if not request.user.has_perm('app_blog.update_blog'):
-#             raise PermissionDenied()
-#
-#     def get_success_url(self):
-#         return reverse('blog-list')
 
 
 @login_required

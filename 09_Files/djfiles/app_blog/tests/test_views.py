@@ -1,12 +1,9 @@
-import os
-
 from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
 from app_blog.models import Blog
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
-from PIL import Image
 
 
 class BlogListViewTest(TestCase):

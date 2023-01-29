@@ -1,9 +1,10 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load poll_extras %}
 {% block navbar %}
     <ul class="navbar-nav me-auto">
-        <li class="nav-item"><a class="nav-link" href="{% url 'add-blog' %}">Добавить объявление</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'upload-blog' %}">Загрузить файл с блогами</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'add-blog' %}">{% trans 'Add an blog' %} </a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'upload-blog' %}">{% trans 'Upload a blog file' %} </a></li>
     </ul>
 {% endblock %}
 
@@ -24,11 +25,11 @@
             {% for blog in Blogs %}
                 <div class="card mb-3">
                     <div class="card-header">
-                        <p class="card-text"> Имя: {{ blog.user.username }}</p>
+                        <p class="card-text"> {% trans 'Name:' %} {{ blog.user.username }}</p>
                     </div>
                     <div class="card-body">
                         <p class="card-text">{{ blog.description|truncatechars:105}}</p>
-                        <a href="{% url 'blog-detail' blog.pk %}" class="btn btn-primary">Read more...</a>
+                        <a href="{% url 'blog-detail' blog.pk %}" class="btn btn-primary">{% trans 'Read more...'%}</a>
                     </div>
                 </div>
             {% endfor %}

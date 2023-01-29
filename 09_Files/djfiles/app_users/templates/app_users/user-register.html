@@ -1,11 +1,9 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 
 {% block navbar %}
 
-<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-    <li class="nav-item"><a class="nav-link" href="{% url 'blog-list' %}">Все объявления</a></li>
-</ul>
+<ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
 
 {% endblock %}
 
@@ -23,7 +21,7 @@
             {{ form.non_field_errors }}
 
             <div class="card-footer text-muted">
-                <button type="submit" class="btn btn-primary btn-block"> Регистрация </button>
+                <button type="submit" class="btn btn-primary btn-block">{% trans  'Registration' %}</button>
             </div>
         </form>
     </div>

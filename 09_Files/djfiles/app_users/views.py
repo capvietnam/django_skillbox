@@ -1,16 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.models import User
-from django.contrib.auth.views import LoginView, AuthenticationForm, LogoutView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect
-from django.views.generic import DetailView, UpdateView
 from .forms import *
 from .models import Profile
-from django.template.context_processors import request
-from django.core.exceptions import PermissionDenied
-from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class UserLoginView(LoginView):

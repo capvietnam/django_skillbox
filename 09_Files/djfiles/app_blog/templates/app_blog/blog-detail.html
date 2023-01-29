@@ -1,10 +1,9 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% block navbar %}
 
 <ul class="navbar-nav me-auto">
-    <li class="nav-item"><a class="nav-link" href="{% url 'blog-list' %}">Все объявления </a></li>
-    <li class="nav-item"><a class="nav-link" href="{% url 'add-blog' %}"> Добавить объявление </a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'add-blog' %}">{% trans  'Add an blog' %} </a></li>
 </ul>
 
 {% endblock %}
