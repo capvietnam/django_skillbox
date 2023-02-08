@@ -15,7 +15,6 @@ class HomeBlog(ListView):
     """Список всех новостей"""
     model = Blog
     template_name = 'app_blog/blog-list.html'
-    context_object_name = 'Blog'
     extra_context = {'title': 'Список объявлений'}
 
     def get_context_data(self, **kwargs):

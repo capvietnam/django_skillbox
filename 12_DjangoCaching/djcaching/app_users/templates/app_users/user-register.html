@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block navbar %}
+
+<ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="col-md-12">
+    <div class="card mb-3">
+        <form method='post' enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="card-body">
+                {{form.as_p}}
+            </div>
+            {{ form.non_field_errors }}
+
+            <div class="card-footer text-muted">
+                <button type="submit" class="btn btn-primary btn-block">{% trans  'Registration' %}</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

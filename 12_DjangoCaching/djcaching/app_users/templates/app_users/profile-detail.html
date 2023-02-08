@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load cache %}
+{% block navbar %}
+    <ul class="navbar-nav me-auto"></ul>{% endblock %}
+
+
+{% block content %}
+    <div class="col">
+        <div class="form-content">
+            <div class="form-row">
+                <div class="col-md-5">
+
+                    <div class="form-group">
+                        <h5 class="small mb-1">{% trans 'Nick:' %} {{ User.username }}</h5>
+                    </div>
+                    <h5 class="card-title">{% trans 'Balance:' %} {{ User.profile.balance }}</h5>
+
+                    <div class="form-group">
+                        <h5 class="card-title"> {% trans 'Stocks:' %} </h5>
+                            <h5 class="small mb-1">{% trans 'shop:' %} {{ random_good.shop }} </h5>
+                            <h5 class="small mb-1">{% trans 'title:' %} {{ random_good.title }} </h5>
+                            <h5 class="small mb-1">{% trans 'price:' %} {{ good_prise }} (10% discount)</h5>
+                            <h5 class="small mb-1">{% trans 'description:' %} {{ purchase.description }} </h5>
+                            <button type="submit" class="btn btn-primary">{% trans 'Buy' %}</button>
+                    </div>
+                    {% cache 500 footer %}
+                        <div class="form-group">
+                            <h5 class="card-title"> {% trans 'Purchase history:' %} </h5>
+                            {% for purchase in  Purchase_history  %}
+                                <div class="form-group">
+                                <br>
+                                <h5 class="small mb-1">{% trans 'shop:' %} {{ purchase.goods.shop }} </h5>
+                                <h5 class="small mb-1">{% trans 'title:' %} {{ purchase.goods.title }} </h5>
+                                <h5 class="small mb-1">{% trans 'price:' %} {{ purchase.goods.price }} </h5>
+                                <h5 class="small mb-1">{% trans 'description:' %} {{ purchase.goods.description }} </h5>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endcache %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

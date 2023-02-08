@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block navbar %}
+    <ul class="navbar-nav me-auto"></ul>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-8">
+            {% for shop in Shop %}
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <p class="card-text"> {% trans 'Shop name:' %} {{ shop.title }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
