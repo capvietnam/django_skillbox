@@ -38,19 +38,18 @@ class Profile(DetailView):
 
         random_good_cache_key = 'random_good:{}'.format(usarname)
         good_prise_cache_key = 'good_prise:{}'.format(usarname)
-        cache.get(random_good_cache_key)
-        cache.get(good_prise_cache_key)
 
-        if not random_good_cache_key or good_prise_cache_key:
+        promotion_good = cache.get(random_good_cache_key)
+        promotion_prise = cache.get(good_prise_cache_key)
+
+        if not promotion_good:
             promotion_good = get_random_good(good_id)
+            cache.set(random_good_cache_key, promotion_good, 60 * 60)
+
+        if not promotion_good:
             promotion_prise = get_good_prise(good_id)
+            cache.set(random_good_cache_key, promotion_good, 60 * 60)
 
-            user_account_cache_data = {
-                random_good_cache_key: promotion_good,
-                good_prise_cache_key: promotion_prise
-            }
-
-            cache.set_many(user_account_cache_data)
 
         context['random_good'] = promotion_good
         context['good_prise'] = promotion_prise
