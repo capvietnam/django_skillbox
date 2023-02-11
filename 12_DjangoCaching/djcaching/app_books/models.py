@@ -4,6 +4,7 @@ from isbn_field import ISBNField
 
 
 class Author(models.Model):
+    """Модель автора книг базы данных"""
     name = models.CharField(max_length=500, verbose_name=_('name'))
     last_name = models.CharField(max_length=500, verbose_name=_('last name'))
     date_birthday = models.DateField(verbose_name=_('date birthday'))
@@ -18,6 +19,7 @@ class Author(models.Model):
 
 
 class Books(models.Model):
+    """Модель книг базы данных"""
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='books', verbose_name=_('author'))
     title = models.CharField(max_length=500, verbose_name=_('title'))
     isbn = ISBNField(verbose_name='isbn', blank=True)

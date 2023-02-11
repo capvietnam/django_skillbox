@@ -8,7 +8,7 @@ from app_goods.models import Goods
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, related_name='profile',
                                 verbose_name=_('user'))
-    balance = models.PositiveIntegerField(max_length=64, default=0, verbose_name=_('balance'), blank=True)
+    balance = models.PositiveIntegerField(default=0, verbose_name=_('balance'), blank=True)
     # purchase_history = models.CharField(max_length=64, verbose_name=_('purchase history'), blank=True)
 
     def can_purchase_amount(self, amount):
