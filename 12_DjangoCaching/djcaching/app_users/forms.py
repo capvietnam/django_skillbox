@@ -6,6 +6,9 @@ from django.utils.translation import gettext_lazy as _
 
 
 class AuthenticationForms(AuthenticationForm):
+    """
+    Форма аутентификации пользователя
+    """
     username = forms.CharField(label=_('Nickname'),
                                widget=forms.TextInput(attrs={'class': 'form-control'}))
     password = forms.CharField(label=_('Password'),
@@ -13,6 +16,9 @@ class AuthenticationForms(AuthenticationForm):
 
 
 class LoginForm(UserCreationForm):
+    """
+    Форма входа пользователя
+    """
     username = forms.CharField(label=_('Nickname'),
                                widget=forms.TextInput(attrs={'class': 'form-control'}))
 
@@ -22,6 +28,9 @@ class LoginForm(UserCreationForm):
 
 
 class UserForm(forms.Form):
+    """
+    Форма пользователя
+    """
     user_name = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
 

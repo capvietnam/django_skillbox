@@ -6,9 +6,9 @@ from django_filters.rest_framework import BaseInFilter, NumberFilter
 
 
 class BooksViewSet(viewsets.ModelViewSet):
+    """Представление для получения списка товаров и создания нового товара."""
     queryset = Books.objects.all()
     serializer_class = BooksSerializers
-    in_stock = NumberFilter(field_name="quantity_remaining", lookup_expr="gt")
     filterset_fields = ['author', 'title', 'pages']
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     ordering_fields = ['pages']
@@ -30,3 +30,5 @@ class AuthorViewSet(viewsets.ModelViewSet):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializers
     filterset_fields = ['name']
+
+

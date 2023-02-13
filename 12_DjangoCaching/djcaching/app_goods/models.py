@@ -3,6 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Shop(models.Model):
+    """Модель магазина всех товаров"""
     title = models.CharField(max_length=500, verbose_name=_('title'))
 
     class Meta:
@@ -15,6 +16,7 @@ class Shop(models.Model):
 
 
 class Goods(models.Model):
+    """Модель всех товаров"""
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name='goods', verbose_name=_('shop'))
     title = models.CharField(max_length=500, verbose_name=_('title'))
     price = models.PositiveIntegerField(blank=True, verbose_name=_('price'))

@@ -6,6 +6,9 @@ from app_goods.models import Goods
 
 
 class Profile(models.Model):
+    """
+    Модель профиля пользователя
+    """
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, related_name='profile',
                                 verbose_name=_('user'))
     balance = models.PositiveIntegerField(default=0, verbose_name=_('balance'), blank=True)
@@ -31,6 +34,9 @@ class Profile(models.Model):
 
 
 class Purchase(models.Model):
+    """
+    Модель истории покупок
+    """
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='purchase', verbose_name=_('user'))
     goods = models.ForeignKey(Goods, on_delete=models.CASCADE, related_name='purchase', verbose_name=_('goods'))
 

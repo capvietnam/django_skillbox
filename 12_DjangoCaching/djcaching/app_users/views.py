@@ -5,14 +5,17 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect
 from .forms import *
-from .models import Profile, Purchase
-from django.views.generic import ListView, DetailView
+from .models import Purchase
+from django.views.generic import DetailView
 from app_goods.models import Goods
 from django.core.cache import cache
 from .func import get_random_good, get_good_prise
 
 
 class UserLoginView(LoginView):
+    """
+
+    """
     template_name = 'app_users/user-login.html'
 
     def get_success_url(self):
@@ -27,6 +30,9 @@ class UserLogoutView(LogoutView):
 
 
 class Profile(DetailView):
+    """
+
+    """
     template_name = 'app_users/profile-detail.html'
     model = User
     context_object_name = 'User'
@@ -58,6 +64,9 @@ class Profile(DetailView):
 
 
 def UserRegisterView(request):
+    """
+
+    """
     if request.method == 'POST':
         form = LoginForm(request.POST or None)
         if form.is_valid():
