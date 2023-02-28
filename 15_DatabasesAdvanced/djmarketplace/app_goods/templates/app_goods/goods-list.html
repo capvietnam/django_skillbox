@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block navbar %}
+    <ul class="navbar-nav me-auto"></ul>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-8">
+            {% for good in Goods %}
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <p class="card-text"> {% trans 'Shop name:' %} {{ good.shop.title }}</p>
+                        <p class="card-text"> {% trans 'Shop name:' %} {{ good.title }}</p>
+                        <p class="card-text"> {% trans 'Shop name:' %} {{ good.price }}</p>
+                        <p class="card-text"> {% trans 'Shop name:' %} {{ good.description }}</p>
+                        <p class="card-text"> {% trans 'Shop name:' %} {{ good.rest_goods }}</p>
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'good-detail' good.pk %}" class="btn btn-primary">{% trans 'Read more...'%}</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

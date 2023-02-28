@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load cache %}
+{% block navbar %}
+    <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link" href="{% url 'update-balance' pk=User.profile.id %}">{% trans  'update balance' %} </a></li>
+    </ul>
+{% endblock %}
+
+
+{% block content %}
+    <div class="col">
+        <div class="form-content">
+            <div class="form-row">
+                <div class="col-md-5">
+
+                    <div class="form-group">
+                        <h5 class="small mb-1">{% trans 'Nick:' %} {{ User.username }}</h5>
+                    </div>
+                    <h5 class="card-title">{% trans 'Balance:' %} {{ User.profile.balance }}</h5>
+                    <h5 class="card-title">{% trans 'Status:' %} {{ User.profile.balance }}</h5>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

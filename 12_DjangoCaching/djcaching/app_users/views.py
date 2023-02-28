@@ -14,7 +14,7 @@ from .func import get_random_good, get_good_prise
 
 class UserLoginView(LoginView):
     """
-
+    View регистрации пользователя
     """
     template_name = 'app_users/user-login.html'
 
@@ -23,6 +23,9 @@ class UserLoginView(LoginView):
 
 
 class UserLogoutView(LogoutView):
+    """
+    View выхода пользователя
+    """
     template_name = 'app_users/user-logout.html'
 
     def get_success_url(self):
@@ -31,7 +34,7 @@ class UserLogoutView(LogoutView):
 
 class Profile(DetailView):
     """
-
+    View профиля пользователя
     """
     template_name = 'app_users/profile-detail.html'
     model = User
@@ -65,7 +68,7 @@ class Profile(DetailView):
 
 def UserRegisterView(request):
     """
-
+    View регистрации пользователя
     """
     if request.method == 'POST':
         form = LoginForm(request.POST or None)

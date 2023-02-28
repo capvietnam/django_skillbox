@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block navbar %}
+
+<ul class="navbar-nav me-auto"></ul>
+
+{% endblock %}
+
+
+{% block content %}
+<div class="col-md-12">
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ object.user.username }}</h5>
+            <p class="card-text"> {% trans 'price:' %} {{ object.price }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
