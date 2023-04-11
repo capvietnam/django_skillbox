@@ -52,3 +52,11 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['last_name', 'description', 'avatar']
+
+
+class UpdateUserBalanceForm(forms.ModelForm):
+    balance = forms.IntegerField()
+
+    class Meta:
+        model = Profile
+        fields = ['balance']

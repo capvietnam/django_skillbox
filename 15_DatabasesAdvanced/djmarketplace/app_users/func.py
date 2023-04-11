@@ -1,6 +1,17 @@
 import random
 from app_goods.models import Goods
+from django.contrib.auth.models import User
+from django.db.models import F
 
+def get_ststus(id_user):
+    if User.objects.get(id=id_user).profile.money_spent >= 10 ** 6:
+        return 3
+    if User.objects.get(id=id_user).profile.money_spent >= 10 ** 5:
+        return 2
+    if User.objects.get(id=id_user).profile.money_spent >= 10 ** 4:
+        return 1
+    else:
+        return 0
 
 def get_random_good(good_id: int) -> list:
     """
@@ -25,3 +36,4 @@ def get_good_prise(good_id: int) -> float:
     """
     promotion_prise = Goods.objects.get(id=good_id).price * 9 / 10
     return promotion_prise
+

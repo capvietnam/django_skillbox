@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block navbar %}
+
+    <ul class="navbar-nav me-auto"></ul>
+
+{% endblock %}
+
+{% block content %}
+    <h1>Sales Report</h1>
+    <form method="get">
+        <label for="start_date">Start Date:</label>
+        <input type="date" name="start_date" value="{{ start_date }}">
+        <label for="end_date">End Date:</label>
+        <input type="date" name="end_date" value="{{ end_date }}">
+        <button type="submit">Generate Report</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Product Name</th>
+                <th>Total Sales</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in context %}
+                <tr>
+                    <td>{{ item.goods__id }}</td>
+                    <td>{{ item.goods__name }}</td>
+                    <td>{{ item.total }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

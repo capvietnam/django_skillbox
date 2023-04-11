@@ -30,3 +30,6 @@ class Goods(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_good_prise_rest(self, ):
+        return self.price, self.rest_goods

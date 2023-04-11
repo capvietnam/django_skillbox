@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block navbar %}
+
+    <ul class="navbar-nav me-auto"></ul>
+
+{% endblock %}
+
+{% block content %}
+    <h1>Cart</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in products %}
+            <tr>
+                <td>{{ item.product.title }}</td>
+                <td>
+                    <form method="post" action="{% url 'update_cart' product_id=item.product.id %}">
+                        {% csrf_token %}
+                        <input type="number" name="quantity" value="{{ item.quantity }}">
+                        <input type="submit" value="Update">
+                    </form>
+                </td>
+                <td>{{ item.product.price }}</td>
+                <td>{{ item.product.price }} * {{ item.quantity }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <form method="post" action="{% url 'Buy' %}">
+    {% csrf_token %}
+    <input type="submit" value="Buy">
+    </form>
+    <form method="post" action="{% url 'dell-cart' %}">
+    {% csrf_token %}
+    <input type="submit" value="Dell cart">
+    </form>
+{% endblock %}

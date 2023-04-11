@@ -2,18 +2,28 @@
 {% load i18n %}
 {% block navbar %}
 
-<ul class="navbar-nav me-auto"></ul>
+    <ul class="navbar-nav me-auto"></ul>
 
 {% endblock %}
 
 
 {% block content %}
-<div class="col-md-12">
-    <div class="card mb-3">
-        <div class="card-body">
-            <h5 class="card-title">{{ object.user.username }}</h5>
-            <p class="card-text"> {% trans 'price:' %} {{ object.price }}</p>
+    <div class="col-md-12">
+        <div class="card mb-3">
+            <div class="card-body">
+                <p class="card-text"> {% trans 'Shop name:' %} {{ object.shop.title }}</p>
+                <p class="card-text"> {% trans 'Good name:' %} {{ object.title }}</p>
+                <p class="card-text"> {% trans 'Good price:' %} {{ object.price }}</p>
+                <p class="card-text"> {% trans 'Good description:' %} {{ object.description }}</p>
+                <p class="card-text"> {% trans 'Good rest_goods:' %} {{ object.rest_goods }}</p>
+            </div>
+
+            <div class="card-body">
+                <form action="{% url 'add_to_cart' product_id=object.id %}" method="post" class="blog-form">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">{% trans 'Buy' %}</button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}

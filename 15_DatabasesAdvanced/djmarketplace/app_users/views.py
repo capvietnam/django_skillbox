@@ -2,14 +2,26 @@ import random
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.views import LoginView, LogoutView
+from django.http import HttpResponseRedirect, HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.db import transaction
 from .forms import *
-from .models import Purchase
+from .models import Sale, Profile
 from django.views.generic import DetailView, UpdateView
 from app_goods.models import Goods
 from django.core.cache import cache
-from .func import get_random_good, get_good_prise
+from .func import get_random_good, get_good_prise, get_ststus
+
+
+def UpdateBalance(request, pk):
+    modelProfile = Profile.objects.get(id=pk)
+    if request.method == 'POST':
+        print(modelProfile.balance)
+        modelProfile.balance += int(request.POST.get("balance"))
+        modelProfile.save()
+        return HttpResponseRedirect("/goods_list/")
+    else:
+        return render(request, "app_users/update-balance.html", {"modelProfile": modelProfile})
 
 
 class UserLoginView(LoginView):
@@ -19,7 +31,7 @@ class UserLoginView(LoginView):
     template_name = 'app_users/user-login.html'
 
     def get_success_url(self):
-        return "/goods/shop_list/"
+        return "/goods_list/"
 
 
 class UserLogoutView(LogoutView):
@@ -29,10 +41,10 @@ class UserLogoutView(LogoutView):
     template_name = 'app_users/user-logout.html'
 
     def get_success_url(self):
-        return "/goods/shop_list/"
+        return "/goods_list/"
 
 
-class Profile(DetailView):
+class ProfileView(DetailView):
     """
     View профиля пользователя
     """
@@ -42,7 +54,7 @@ class Profile(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
-        good_id = random.randint(1, len(Goods.objects.all()))
+        good_id = random.randint(1, len(Goods.objects.select_related('shop').all()))
         usarname = self.request.user.username
 
         random_good_cache_key = 'random_good:{}'.format(usarname)
@@ -59,10 +71,10 @@ class Profile(DetailView):
             promotion_prise = get_good_prise(good_id)
             cache.set(random_good_cache_key, promotion_good, 60 * 60)
 
-
+        context['status'] = get_ststus(self.request.user.id)
         context['random_good'] = promotion_good
         context['good_prise'] = promotion_prise
-        context['Purchase_history'] = Purchase.objects.filter(user=self.request.user)
+        context['Purchase_history'] = Sale.objects.filter(user=self.request.user)
         return context
 
 
@@ -78,14 +90,9 @@ def UserRegisterView(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('shop-list')
+            return redirect('goods-list')
         else:
             messages.error(request, 'Ошибка регистрации')
     else:
         form = LoginForm()
     return render(request, 'app_users/user-register.html', {'form': form})
-
-
-def replenishment_balance(post_id, ):
-    pass
-

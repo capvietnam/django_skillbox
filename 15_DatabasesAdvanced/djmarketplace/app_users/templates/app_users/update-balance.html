@@ -3,28 +3,17 @@
 {% load cache %}
 {% block navbar %}
     <ul class="navbar-nav me-auto">
-        <li class="nav-item"><a class="nav-link" href="{% url 'update-balance' %}">{% trans  'update balance' %} </a></li>
     </ul>
 {% endblock %}
 
 
 {% block content %}
-    <div class="col-md-12">
-        <div class="card mb-3">
-
-            <form action="{% url 'update-balance' %}" method='post'>
-                {% csrf_token %}
-
-                <div class="card-body">
-                    {{form.as_p}}
-
-                </div>
-                {{ form.non_field_errors }}
-
-                <div class="card-footer text-muted">
-                    <button type="submit" class="btn btn-primary btn-block">Изменить новость</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <form method="POST">
+        {% csrf_token %}
+        <p>
+            <label>Введите на сколько хотите пополнить</label><br>
+            <input type="text" name="balance" value="{{ modelProfile.balance }}"/>
+        </p>
+        <input type="submit" value="Сохранить">
+    </form>
 {% endblock %}

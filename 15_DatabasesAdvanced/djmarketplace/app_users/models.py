@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from app_goods.models import Goods
+from django.utils import timezone
 
 
 class Profile(models.Model):
@@ -12,14 +13,15 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, related_name='profile',
                                 verbose_name=_('user'))
     balance = models.PositiveIntegerField(default=0, verbose_name=_('balance'), blank=True)
-    # purchase_history = models.CharField(max_length=64, verbose_name=_('purchase history'), blank=True)
+    money_spent = models.PositiveIntegerField(default=0, verbose_name=_('money_spent'), blank=True)
 
     def can_purchase_amount(self, amount):
         if amount <= self.balance:
             return True
 
-    def input(self, amount):
-        self.user_balance = self.user_balance + amount
+    def update_balance(self, amount):
+        self.balance += amount
+        self.save()
 
     def __str__(self):
         return self.user.username
@@ -33,14 +35,16 @@ class Profile(models.Model):
         ordering = ['pk', 'user']
 
 
-class Purchase(models.Model):
+class Sale(models.Model):
     """
     Модель истории покупок
     """
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='purchase', verbose_name=_('user'))
-    goods = models.ForeignKey(Goods, on_delete=models.CASCADE, related_name='purchase', verbose_name=_('goods'))
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sale', verbose_name=_('user'))
+    goods = models.ForeignKey(Goods, on_delete=models.CASCADE, related_name='sale', verbose_name=_('goods'))
+    quantity = models.IntegerField(blank=True, default=0, verbose_name=_('quantity'))
+    date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name = _('order_history')
-        verbose_name_plural = _('order_history')
-        ordering = ['pk', 'user', 'goods']
+        verbose_name = _('Sale')
+        verbose_name_plural = _('Sale')
+        ordering = ['pk', 'user', 'goods', 'quantity', 'date']

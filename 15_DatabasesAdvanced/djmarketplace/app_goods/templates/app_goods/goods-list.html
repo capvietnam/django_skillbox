@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block navbar %}
-    <ul class="navbar-nav me-auto"></ul>
+    <ul class="navbar-nav me-auto">
+        <a href="{% url 'top-products' %}" class="btn btn-primary">{% trans 'Sales Report' %}</a>
+    </ul>
 {% endblock %}
 
 {% block content %}
@@ -11,13 +13,13 @@
                 <div class="card mb-3">
                     <div class="card-header">
                         <p class="card-text"> {% trans 'Shop name:' %} {{ good.shop.title }}</p>
-                        <p class="card-text"> {% trans 'Shop name:' %} {{ good.title }}</p>
-                        <p class="card-text"> {% trans 'Shop name:' %} {{ good.price }}</p>
-                        <p class="card-text"> {% trans 'Shop name:' %} {{ good.description }}</p>
-                        <p class="card-text"> {% trans 'Shop name:' %} {{ good.rest_goods }}</p>
+                        <p class="card-text"> {% trans 'Good name:' %} {{ good.title }}</p>
+                        <p class="card-text"> {% trans 'Good price:' %} {{ good.price }}</p>
+                        <p class="card-text"> {% trans 'Good description:' %} {{ good.description }}</p>
+                        <p class="card-text"> {% trans 'Good rest_goods:' %} {{ good.rest_goods }}</p>
                     </div>
                     <div class="card-body">
-                        <a href="{% url 'good-detail' good.pk %}" class="btn btn-primary">{% trans 'Read more...'%}</a>
+                        <a href="{% url 'good-detail' good.pk %}" class="btn btn-primary">{% trans 'Read more...' %}</a>
                     </div>
                 </div>
             {% endfor %}
