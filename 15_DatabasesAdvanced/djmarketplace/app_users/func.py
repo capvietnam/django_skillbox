@@ -15,6 +15,7 @@ def check_stutus(old_money_spent, money_spent):
         return True
     elif old_money_spent < 10 ** 6 <= money_spent:
         return True
+    return False
 
 
 def get_ststus(id_user):
