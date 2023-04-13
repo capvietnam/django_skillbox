@@ -10,7 +10,7 @@ from .models import Sale, Profile
 from django.views.generic import DetailView, UpdateView
 from app_goods.models import Goods
 from django.core.cache import cache
-from .func import get_random_good, get_good_prise, get_ststus
+from .func import get_random_good, get_good_prise, get_status
 import logging
 
 logger = logging.getLogger(__name__)
@@ -78,7 +78,7 @@ class ProfileView(DetailView):
             promotion_prise = get_good_prise(good_id)
             cache.set(random_good_cache_key, promotion_good, 60 * 60)
 
-        context['status'] = get_ststus(self.request.user.id)
+        context['status'] = get_status(self.request.user.id)
         context['random_good'] = promotion_good
         context['good_prise'] = promotion_prise
         context['Purchase_history'] = Sale.objects.filter(user=self.request.user)

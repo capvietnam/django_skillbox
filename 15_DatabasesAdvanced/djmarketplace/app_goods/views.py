@@ -9,7 +9,7 @@ from app_users.models import Profile, Sale
 from django.contrib.auth.models import User
 from django.db.models import Sum
 import logging
-from app_users.func import check_stutus
+from app_users.func import check_status
 logger = logging.getLogger(__name__)
 
 
@@ -109,7 +109,7 @@ def place_order(request):
         logger.info('Произведено снятие баллов с баланса')
         old_money_spent = profile.money_spent
         profile.money_spent += sum_cost_goods
-        if check_stutus(old_money_spent, profile.money_spent):
+        if check_status(old_money_spent, profile.money_spent):
             logger.info('Произошел переход на другой статус')
         profile.balance -= sum_cost_goods
         profile.save()

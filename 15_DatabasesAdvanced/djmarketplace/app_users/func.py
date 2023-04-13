@@ -8,7 +8,7 @@ from app_users.models import Profile, Sale
 fake = Faker()
 
 
-def check_stutus(old_money_spent, money_spent):
+def check_status(old_money_spent, money_spent):
     if old_money_spent < 10 ** 4 <= money_spent:
         return True
     elif old_money_spent < 10 ** 5 <= money_spent:
@@ -18,7 +18,7 @@ def check_stutus(old_money_spent, money_spent):
     return False
 
 
-def get_ststus(id_user):
+def get_status(id_user):
     if User.objects.get(id=id_user).profile.money_spent >= 10 ** 6:
         return 3
     if User.objects.get(id=id_user).profile.money_spent >= 10 ** 5:
