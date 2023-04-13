@@ -8,9 +8,14 @@ from django.http import HttpResponse, HttpRequest
 from app_users.models import Profile, Sale
 from django.contrib.auth.models import User
 from django.db.models import Sum
+import logging
+from app_users.func import check_stutus
+logger = logging.getLogger(__name__)
+
 
 class ListGoods(ListView):
     """Список всех новостей"""
+    logger.info('Запрошена страница со списком товаров')
     model = Goods
     template_name = 'app_goods/goods-list.html'
     context_object_name = 'Shop'
@@ -23,6 +28,7 @@ class ListGoods(ListView):
 
 
 class GoodsDetail(DetailView):
+    logger.info('Запрошена страница корзины')
     """Отдельная страница новости"""
     model = Goods
     template_name = 'app_goods/good-detail.html'
@@ -31,7 +37,6 @@ class GoodsDetail(DetailView):
         context = super().get_context_data(**kwargs)
         context['Goods'] = self.model.objects.defer('id').all()
         return context
-
 
 
 def set_cookie_view(request) -> HttpResponse:
@@ -46,6 +51,7 @@ def get_cookie_view(request) -> HttpResponse:
 
 
 def add_to_cart(request, product_id):
+    logger.info('Добавление товара в корзину')
     if 'cart' not in request.session:
         request.session['cart'] = {}
     cart = request.session['cart']
@@ -55,6 +61,7 @@ def add_to_cart(request, product_id):
 
 
 def cart(request):
+    logger.info('Запрошена страница корзины')
     cart = request.session.get('cart', {})
     products = []
     for product_id, quantity in cart.items():
@@ -67,6 +74,7 @@ def cart(request):
 
 
 def update_cart(request, product_id):
+    logger.info('Изменено количество товаров в корзине')
     cart = request.session.get('cart', {})
     quantity = int(request.POST.get('quantity', 0))
     if quantity >= 0:
@@ -74,8 +82,10 @@ def update_cart(request, product_id):
     request.session.modified = True
     return redirect('cart_goods')
 
+
 @transaction.atomic()
 def place_order(request):
+    logger.info('Произведена оплата покупок из корзины')
     cart = request.session.get('cart', {})
     products = []
     money_user = request.user.profile.balance
@@ -96,7 +106,11 @@ def place_order(request):
             else:
                 return redirect('cart_goods')
         del request.session['cart']
+        logger.info('Произведено снятие баллов с баланса')
+        old_money_spent = profile.money_spent
         profile.money_spent += sum_cost_goods
+        if check_stutus(old_money_spent, profile.money_spent):
+            logger.info('Произошел переход на другой статус')
         profile.balance -= sum_cost_goods
         profile.save()
         return redirect('goods-list')
@@ -105,11 +119,13 @@ def place_order(request):
 
 
 def dell_cart(request):
+    logger.info('Удаление корзины')
     del request.session['cart']
     return redirect('goods-list')
 
 
 def top_products(request):
+    logger.info('Запрошена страница по продаваемости продуктов')
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
     sales = Sale.objects.filter(date__range=[start_date, end_date])

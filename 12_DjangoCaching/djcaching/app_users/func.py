@@ -1,4 +1,3 @@
-import random
 from app_goods.models import Goods
 
 

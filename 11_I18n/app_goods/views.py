@@ -1,11 +1,10 @@
 from _csv import reader
 from decimal import Decimal
-from io import StringIO
 
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from app_goods.forms import UploadPriceFileForm
+from app_goods import UploadPriceFileForm
 from app_goods.models import Item
 
 

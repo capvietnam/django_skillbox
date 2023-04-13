@@ -2,7 +2,6 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.test import TestCase, Client
 from django.contrib.auth import get_user_model
-from app_users.models import Profile
 
 
 class AuthenticationTest(TestCase):

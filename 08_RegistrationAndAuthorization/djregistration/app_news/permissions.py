@@ -1,6 +1,5 @@
 from django.http import Http404
 
-from app_news.models import News
 from app_users.models import Profile
 
 

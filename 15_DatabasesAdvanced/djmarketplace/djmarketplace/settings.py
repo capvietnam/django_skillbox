@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-
+import logging
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app_users',
     'app_goods',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -47,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'djmarketplace.urls'
@@ -131,3 +133,23 @@ LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale'), ]
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log'
+        },
+    },
+    'root': {
+        'handlers': ['file'],
+        'level': 'DEBUG',
+        'propagate': True
+    },
+}
+
+INTERNAL_IPS = [
+    '127.0.0.1'
+]

@@ -11,9 +11,13 @@ from django.views.generic import DetailView, UpdateView
 from app_goods.models import Goods
 from django.core.cache import cache
 from .func import get_random_good, get_good_prise, get_ststus
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def UpdateBalance(request, pk):
+    logger.info('Запрошена страница пополнения баланса')
     modelProfile = Profile.objects.get(id=pk)
     if request.method == 'POST':
         print(modelProfile.balance)
@@ -28,6 +32,7 @@ class UserLoginView(LoginView):
     """
     View регистрации пользователя
     """
+    logger.info('Запрошена страница аутентификации')
     template_name = 'app_users/user-login.html'
 
     def get_success_url(self):
@@ -38,6 +43,7 @@ class UserLogoutView(LogoutView):
     """
     View выхода пользователя
     """
+    logger.info('Запрошена страница выхода из аккаунта')
     template_name = 'app_users/user-logout.html'
 
     def get_success_url(self):
@@ -48,6 +54,7 @@ class ProfileView(DetailView):
     """
     View профиля пользователя
     """
+    logger.info('Запрошена страница профиля')
     template_name = 'app_users/profile-detail.html'
     model = User
     context_object_name = 'User'
@@ -82,6 +89,7 @@ def UserRegisterView(request):
     """
     View регистрации пользователя
     """
+    logger.info('Запрошена страница регистрации')
     if request.method == 'POST':
         form = LoginForm(request.POST or None)
         if form.is_valid():

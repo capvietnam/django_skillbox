@@ -4,7 +4,6 @@ from django.test import TestCase, Client
 from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
 from app_users.models import Profile
-from PIL import Image
 
 
 class RegisterTest(TestCase):
