@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block navbar %}
+
+    <ul class="navbar-nav me-auto"></ul>
+
+{% endblock %}
+
+{% block content %}
+    <h1>Список продаваемого жилья</h1>
+    {% for h in housing %}
+        <div class="housing-item">
+            <h2>{{ h.title }}</h2>
+            <p>Тип: {{ h.type }}</p>
+            <p>Комнат: {{ h.rooms }}</p>
+            <p>Цена: {{ h.price }}</p>
+            <p>{{ h.description }}</p>
+        </div>
+    {% empty %}
+        <p>В настоящее время нет доступного жилья.</p>
+    {% endfor %}
+{% endblock %}

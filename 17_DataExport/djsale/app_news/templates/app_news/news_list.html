@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block navbar %}
+
+    <ul class="navbar-nav me-auto"></ul>
+
+{% endblock %}
+
+{% block content %}
+    <h1>Новости</h1>
+    {% if news %}
+        {% for n in news %}
+            <div class="news-item">
+                <h2>{{ n.title }}</h2>
+                <p>Дата: {{ n.date }}</p>
+                <p>{{ n.description }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Новости отсутствуют</p>
+    {% endif %}
+{% endblock %}
